@@ -21,9 +21,15 @@ for num in range(len(api_id)):
 			# 获取带按钮的消息
 			print("event.message.text: ", event.message.text)
 			if "已经签到过了" in event.message.text:
-				await client.disconnect()
+				#await client.disconnect()
+				print(k)
+				if "@EmbyPublicBot" in k:
+					print("厂妹已经签到过了")
+				elif "@qweybgbot" in k:
+					print("卷毛鼠已经签到过了")
 			elif event.message.buttons:
-				if "EmbyPublicBot" in k:
+				print("开始签到",k)
+				if "@EmbyPublicBot" in k:
 					print("厂妹签到 event.message.raw_text: ", event.message.raw_text)
 					# 获取算式 厂妹
 					# '签到需要确认问题并选择您认为正确的答案：\n\n25 + 1 = ?\n\n请在 30 秒内作答'
