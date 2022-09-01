@@ -23,19 +23,46 @@ for num in range(len(api_id)):
 			if "已经签到过了" in event.message.text:
 				await client.disconnect()
 			elif event.message.buttons:
-				print("event.message.raw_text: ", event.message.raw_text)
-				# 获取算式
-				# '签到需要确认问题并选择您认为正确的答案：\n\n25 + 1 = ?\n\n请在 30 秒内作答'
-				formula = event.message.raw_text.split('\n\n')[1]
-				# 计算结果 25 + 1 = ?
-				result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-				# 匹配按钮文本并点击
-				for button in event.message.buttons[0]:
-					if int(button.text) == result:
-						await button.click()
-						break
-				# 结束异步任务
-				await client.disconnect()
+				if "EmbyPublicBot" in k:
+					print("厂妹签到 event.message.raw_text: ", event.message.raw_text)
+					# 获取算式 厂妹
+					# '签到需要确认问题并选择您认为正确的答案：\n\n25 + 1 = ?\n\n请在 30 秒内作答'
+					formula = event.message.raw_text.split('\n\n')[1]
+					# 计算结果 25 + 1 = ?
+					result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
+					# 匹配按钮文本并点击
+					for button in event.message.buttons[0]:
+						if int(button.text) == result:
+							await button.click()
+							break
+					# 结束异步任务
+					await client.disconnect()
+				elif "qweybgbot" in k:
+					print("卷毛鼠签到 event.message.raw_text: ", event.message.raw_text)
+					# 获取算式 卷毛鼠
+					# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
+					formula = event.message.raw_text.split('\n')[1]
+					# 计算结果 25 + 1 = ?
+					js = formula.split(' ')[1]
+					print("计算符号:", js)
+					result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
+					if "加" in js:
+						result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
+					elif "减" in js:
+						result = int(formula.split(' ')[0]) - int(formula.split(' ')[2])
+					elif "乘" in js:
+						result = int(formula.split(' ')[0]) * int(formula.split(' ')[2])
+					elif "除" in js:
+						result = int(formula.split(' ')[0]) / int(formula.split(' ')[2])
+					print("计算结果:", result)
+					# 匹配按钮文本并点击
+					for button in event.message.buttons[0]:
+						if int(button.text) == result:
+							await button.click()
+							break
+					# 结束异步任务
+					await client.disconnect()
+					
 		client.send_read_acknowledge(k)	#将机器人回应设为已读
 	print("Done! Session name:", session_name[num])	
 os._exit(0)
