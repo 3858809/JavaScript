@@ -7,14 +7,16 @@ api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号�
 
 robot_map = {'@qweybgbot':'/checkin'}
 qdzt = 0
+n = 1
 session_name = api_id[:]
 while qdzt == 0:
+	print("开始签到: ", k)
+	print("当前签到次数:: ", n)
 	for num in range(len(api_id)):
 		session_name[num] = "id_" + str(session_name[num])
 		client = TelegramClient(session_name[num], api_id[num], api_hash[num])
 		client.start()
 		for (k,v) in robot_map.items():
-			print("开始签到: ", k)
 			client.send_message(k, v) #设置机器人和签到命令
 			time.sleep(3)
 			@client.on(events.NewMessage(chats=k))
@@ -63,4 +65,5 @@ while qdzt == 0:
 			print("结束签到: ", k)
 			
 		print("Done! Session name:", session_name[num])	
+		n += 1
 os._exit(0)
