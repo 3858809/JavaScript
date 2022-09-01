@@ -23,14 +23,14 @@ for num in range(len(api_id)):
 			client.send_message(k, v) #设置机器人和签到命令
 			time.sleep(3)
 			@client.on(events.NewMessage(chats=k))
-			async def handler(event):
+			def handler(event):
 				print("当前签到机器人:", k)
 				# 获取带按钮的消息
 				print("获取的信息: ", event.message.text)
 				if "已经签到过了" in event.message.text:
 					qdzt = 2
 					print("已经签到过了")
-					await client.disconnect()
+					client.disconnect()
 				elif event.message.buttons:
 					# 获取算式 卷毛鼠
 					# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
@@ -61,7 +61,7 @@ for num in range(len(api_id)):
 					# 匹配按钮文本并点击
 					for button in event.message.buttons[0]:
 						if int(button.text) == result:
-							await button.click()
+							button.click()
 							break
 					# 结束异步任务
 						
@@ -69,5 +69,7 @@ for num in range(len(api_id)):
 			print("结束签到: ", k)
 			
 		print("Done! Session name:", session_name[num])	
-		
+		print("qdzt:", qdzt)
+		if qdzt > 0 :
+			break
 os._exit(0)
