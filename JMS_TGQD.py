@@ -16,19 +16,19 @@ for num in range(len(api_id)):
 	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
 	client.start()
 	
-	while qdzt < 1:
+	while qdzt == 0:
 		print("当前签到次数:", n)
 		n += 1
 		for (k,v) in robot_map.items():
 			client.send_message(k, v) #设置机器人和签到命令
-			time.sleep(3)
+			time.sleep(10)
 			@client.on(events.NewMessage(chats=k))
 			async def handler(event):
 				print("当前签到机器人:", k)
 				# 获取带按钮的消息
 				print("获取的信息: ", event.message.text)
 				if "您距离下次可签到时间还剩" in event.message.text:
-					qdzt = 2
+					qdzt = 1
 					print("已经签到过了")
 					await client.disconnect()
 				elif event.message.buttons:
@@ -45,16 +45,16 @@ for num in range(len(api_id)):
 					result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
 					if "加" == js or "+" == js or "加以" == js or "枷" == js:
 						result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-						qdzt = 2
+						qdzt = 1
 					elif "减" == js or "-" == js or "缄" == js:
 						result = int(formula.split(' ')[0]) - int(formula.split(' ')[2])
-						qdzt = 2
+						qdzt = 1
 					elif "乘" == js or "*" == js or "乗以" == js or "騬以" == js or "×" == js:
 						result = int(formula.split(' ')[0]) * int(formula.split(' ')[2])
-						qdzt = 2
+						qdzt = 1
 					elif "除" == js or "/" == js or "除以" == js or "處以" == js:
 						result = int(formula.split(' ')[0]) / int(formula.split(' ')[2])
-						qdzt = 2
+						qdzt = 1
 					else:
 						qdzt = 0
 					print("计算结果:", result)
@@ -69,5 +69,5 @@ for num in range(len(api_id)):
 			print("结束签到: ", k)
 			
 		print("Done! Session name:", session_name[num])	
-		
+		print("qdzt:", qdzt)	
 os._exit(0)
