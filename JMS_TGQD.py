@@ -24,7 +24,6 @@ for num in range(len(api_id)):
 			print("获取的信息: ", event.message.text)
 			if "您距离下次可签到时间还剩" in event.message.text:
 				print("已经签到过了")
-				
 			elif event.message.buttons:
 				# 获取算式 卷毛鼠
 				# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
