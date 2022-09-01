@@ -58,7 +58,7 @@ for num in range(len(api_id)):
 				print("验证码签到机制")
 				print("获取图片:",event.message.media)
 				new_message = event.message.message
-				print(new_message)
+				print("new_message:",new_message)
 				await event.download_media(new_message, "captcha.jpg")
 				print("下载验证码图片完毕")
 				# 使用 TRUECAPTCHA 模块解析验证码
