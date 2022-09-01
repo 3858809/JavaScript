@@ -56,8 +56,8 @@ for num in range(len(api_id)):
 						break
 			elif "请输入验证码" in event.message.text or event.photo: # 获取图像验证码
 				print("验证码签到机制")
-				replIEd = await event.get_reply_message()
-				sender = replIEd.sender
+				sender = await event.get_sender()
+				print("sender:",sender)
 				path = await client.download_profile_photo(sender)
 				#path = await client.download_profile_photo('blueseamusic_bot')
 				print("path:",path)
