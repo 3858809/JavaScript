@@ -56,6 +56,7 @@ for num in range(len(api_id)):
 						break
 			elif "请输入验证码" in event.message.text:  # 获取图像验证码
 				print("验证码签到机制")
+				print("获取图片:",event.message.photo)
 				await client.download_media(event.message.photo, "captcha.jpg")
 				print("下载验证码图片完毕")
 				# 使用 TRUECAPTCHA 模块解析验证码
