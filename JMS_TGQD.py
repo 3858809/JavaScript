@@ -31,6 +31,7 @@ for num in range(len(api_id)):
 					qdzt = 1
 					print("已经签到过了")
 					client.send_read_acknowledge(k)	#将机器人回应设为已读
+					break
 				elif event.message.buttons:
 					# 获取算式 卷毛鼠
 					# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
