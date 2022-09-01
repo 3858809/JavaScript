@@ -54,7 +54,7 @@ for num in range(len(api_id)):
 					if int(button.text) == result:
 						await button.click()
 						break
-			elif "请输入验证码" in event.message.text:  # 获取图像验证码
+			elif "请输入验证码" in event.message.text or event.photo: # 获取图像验证码
 				print("验证码签到机制")
 				print("获取图片:",event.message.media)
 				await event.download_media("captcha.jpg")
