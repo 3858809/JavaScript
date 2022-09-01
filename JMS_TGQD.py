@@ -22,7 +22,7 @@ for num in range(len(api_id)):
 			print("当前签到机器人:", k)
 			# 获取带按钮的消息
 			print("获取的信息: ", event.message.text)
-			if "您距离下次可签到时间还剩" in event.message.text:
+			if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
 				print("已经签到过了")
 			elif event.message.buttons:
 				# 获取算式 卷毛鼠
