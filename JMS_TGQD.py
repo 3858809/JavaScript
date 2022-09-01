@@ -23,7 +23,7 @@ for num in range(len(api_id)):
 			client.send_message(k, v) #设置机器人和签到命令
 			time.sleep(5)
 			@client.on(events.NewMessage(chats=k))
-			async def handler(event):
+			def handler(event):
 				print("当前签到机器人:", k)
 				# 获取带按钮的消息
 				print("获取的信息: ", event.message.text)
@@ -62,7 +62,7 @@ for num in range(len(api_id)):
 					# 匹配按钮文本并点击
 					for button in event.message.buttons[0]:
 						if int(button.text) == result:
-							await button.click()
+							button.click()
 							break
 				else:	
 					qdzt = 0
