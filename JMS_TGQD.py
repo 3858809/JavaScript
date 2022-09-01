@@ -21,7 +21,7 @@ for num in range(len(api_id)):
 		n += 1
 		for (k,v) in robot_map.items():
 			client.send_message(k, v) #设置机器人和签到命令
-			time.sleep(10)
+			time.sleep(5)
 			@client.on(events.NewMessage(chats=k))
 			async def handler(event):
 				print("当前签到机器人:", k)
@@ -30,6 +30,7 @@ for num in range(len(api_id)):
 				if "您距离下次可签到时间还剩" in event.message.text:
 					qdzt = 1
 					print("已经签到过了")
+					client.send_read_acknowledge(k)	#将机器人回应设为已读
 				elif event.message.buttons:
 					# 获取算式 卷毛鼠
 					# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
@@ -62,12 +63,10 @@ for num in range(len(api_id)):
 						if int(button.text) == result:
 							await button.click()
 							break
-					# 结束异步任务
-						
-			client.send_read_acknowledge(k)	#将机器人回应设为已读
-			print("结束签到: ", k)
-			await client.disconnect()
-			
+				else:	
+					qdzt = 0
+					time.sleep(5)
+					
 		print("Done! Session name:", session_name[num])	
 		print("qdzt:", qdzt)	
 os._exit(0)
