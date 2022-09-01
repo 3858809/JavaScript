@@ -9,9 +9,9 @@ robot_map = {'@qweybgbot':'/checkin'}
 qdzt = 0
 n = 1
 session_name = api_id[:]
+print("开始签到")
 while qdzt == 0:
-	print("开始签到: ", k)
-	print("当前签到次数:: ", n)
+	print("当前签到次数:", n)
 	for num in range(len(api_id)):
 		session_name[num] = "id_" + str(session_name[num])
 		client = TelegramClient(session_name[num], api_id[num], api_hash[num])
@@ -21,6 +21,7 @@ while qdzt == 0:
 			time.sleep(3)
 			@client.on(events.NewMessage(chats=k))
 			async def handler(event):
+				print("当前签到机器人:", k)
 				# 获取带按钮的消息
 				print("获取的信息: ", event.message.text)
 				if "已经签到过了" in event.message.text:
