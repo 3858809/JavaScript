@@ -4,6 +4,7 @@ import asyncio
 import base64
 import json
 import re
+import logging
 from telethon import TelegramClient, events, sync
 
 api_id = [5672799]	#输入api_id，一个账号一项
@@ -57,6 +58,7 @@ for num in range(len(api_id)):
 			elif "请输入验证码" in event.message.text or event.photo: # 获取图像验证码
 				print("开始下载验证码")
 				await client.download_media(event.message.photo, "captcha.jpg")
+				logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',level=logging.ERROR)
 				print("下载验证码图片完毕")
 				# 使用 TRUECAPTCHA 模块解析验证码
 				solved_result = captcha_solver("captcha.jpg")
