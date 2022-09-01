@@ -1,5 +1,9 @@
 import os
 import time
+import asyncio
+import base64
+import json
+import re
 from telethon import TelegramClient, events, sync
 
 api_id = [5672799]	#输入api_id，一个账号一项
