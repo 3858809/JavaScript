@@ -6,8 +6,8 @@ import re
 import requests
 from telethon import TelegramClient, events
 
-API_ID = [5672799]	#输入api_id，一个账号一项
-API_HASH = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
+API_ID = 5672799	#输入api_id，一个账号一项
+API_HASH = 'e08529171140eac69071c630f03f1a7a'	#输入api_hash，一个账号一项
 
 async def main():
     MSG = '/checkin'
