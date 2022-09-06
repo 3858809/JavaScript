@@ -24,28 +24,28 @@ async def main():
 		if "签到成功" in event.message.text or "上次签到" in event.message.text:
 			print("签到成功")
 			# 结束异步任务
-			await client.disconnect()
+			client.disconnect()
 		elif event.message.buttons:
 			if event.message.button_count == 6:  # 主菜单
-				await event.message.buttons[2][0].click()
+				event.message.buttons[2][0].click()
 			elif event.message.button_count == 7:  # 更多功能
-				await event.message.buttons[0][1].click()
+				event.message.buttons[0][1].click()
 			# 图像验证码处理
 		elif "请输入验证码" in event.message.text:  # 获取图像验证码
 			print("开始处理验证码签到!")
-			await client.download_media(event.message.photo, "captcha.jpg")
+			client.download_media(event.message.photo, "captcha.jpg")
 			# 使用 TRUECAPTCHA 模块解析验证码
 			solved_result = captcha_solver("captcha.jpg")
 			if not "result" in solved_result:
-				await client.send_message(CHANNEL_ID, "21342")
+				client.send_message(CHANNEL_ID, "21342")
 				return
 			captcha_code = handle_captcha_solved_result(solved_result)
-			await client.send_message(event.message.chat_id, captcha_code)
+			client.send_message(event.message.chat_id, captcha_code)
 			# 删除临时文件
 			os.remove("captcha.jpg")
 		elif "已签过到" in event.message.text:  # 已经签到过
 			print("已签过到")
 		# 是否成功签到
 		elif "验证码错误" in event.message.text:
-			await client.send_message(event.message.chat_id, RETURE_MENU)
+			client.send_message(event.message.chat_id, RETURE_MENU)
 asyncio.run(main())
