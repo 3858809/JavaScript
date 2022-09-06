@@ -4,6 +4,8 @@ import json
 import os
 import re
 import requests
+import time
+
 from telethon import TelegramClient, events
 
 API_ID = 5672799	#输入api_id，一个账号一项
@@ -15,6 +17,7 @@ async def main():
 	print("开始签到!签到对象:",CHANNEL_ID)
 	async with TelegramClient("CLIENT_NAME", API_ID, API_HASH) as client:
 		await client.send_message(CHANNEL_ID, MSG)
+		time.sleep(3)
 		@client.on(events.NewMessage(chats=CHANNEL_ID))
 		async def handler(event):
 			# 根据button count 区分消息类型
