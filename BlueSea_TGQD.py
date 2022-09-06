@@ -18,6 +18,7 @@ async def main():
 		@client.on(events.NewMessage(chats=CHANNEL_ID))
 		async def handler(event):
 			# 根据button count 区分消息类型
+			print("获取的信息:",event.message.text)
 			if "签到成功" in event.message.text or "上次签到" in event.message.text:
 				print("签到成功")
 				# 结束异步任务
