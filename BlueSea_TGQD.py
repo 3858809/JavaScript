@@ -16,7 +16,7 @@ async def main():
 	CHANNEL_ID = '@blueseamusic_bot'
 	print("开始签到!签到对象:",CHANNEL_ID)
 	async with TelegramClient("CLIENT_NAME", API_ID, API_HASH) as client:
-		client.send_message(CHANNEL_ID, MSG)
+		await client.send_message(CHANNEL_ID, MSG)
 		time.sleep(3)
 		@client.on(events.NewMessage(chats=CHANNEL_ID))
 		async def handler(event):
