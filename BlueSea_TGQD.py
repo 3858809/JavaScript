@@ -17,7 +17,7 @@ async def main():
 	client = TelegramClient("CLIENT_NAME", API_ID, API_HASH)
 	client.start()
 	client.send_message(CHANNEL_ID, MSG)
-	time.sleep(3)
+	#time.sleep(3)
 	@client.on(events.NewMessage(chats=CHANNEL_ID))
 	async def handler(event):
 		# 根据button count 区分消息类型
