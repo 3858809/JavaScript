@@ -33,7 +33,9 @@ for num in range(len(api_id)):
 			elif "请输入验证码" in event.message.text:
 				print("开始处理验证码签到!")
 				print("开始下载图片!")
-				path = await client.download_profile_photo('BlueSeaSupportsBot')
+				me = await client.get_me()
+				print(me.username)
+				path = await client.download_profile_photo(me)
 				print(path)
 				print("path:",path)
 				print("下载图片完毕!")
