@@ -44,5 +44,4 @@ async def main():
 			# 是否成功签到
 			elif "验证码错误" in event.message.text:
 				await client.send_message(event.message.chat_id, RETURE_MENU)
-with client:
-	client.loop.run_until_complete(main())
+asyncio.run(main())
