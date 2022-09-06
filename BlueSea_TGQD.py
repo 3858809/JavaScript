@@ -34,6 +34,7 @@ for num in range(len(api_id)):
 				print("开始处理验证码签到!")
 				print("开始下载图片!")
 				await client.download_media(event.message.photo, "captcha.jpg")
+				time.sleep(3)
 				print("下载图片完毕!")
 				# 使用 TRUECAPTCHA 模块解析验证码
 				solved_result = captcha_solver("captcha.jpg")
