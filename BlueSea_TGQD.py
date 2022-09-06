@@ -29,6 +29,7 @@ async def main():
 					await event.message.buttons[0][1].click()
 				# 图像验证码处理
 			elif "请输入验证码" in event.message.text:  # 获取图像验证码
+				print("开始处理验证码签到!")
 				await client.download_media(event.message.photo, "captcha.jpg")
 				# 使用 TRUECAPTCHA 模块解析验证码
 				solved_result = captcha_solver("captcha.jpg")
