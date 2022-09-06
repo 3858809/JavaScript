@@ -33,7 +33,7 @@ for num in range(len(api_id)):
 			elif "请输入验证码" in event.message.text:
 				print("开始处理验证码签到!")
 				print("开始下载图片!")
-				client.download_media(event.message.photo, "captcha.jpg")
+				await client.download_media(event.message.photo, "captcha.jpg")
 				print("下载图片完毕!")
 				# 使用 TRUECAPTCHA 模块解析验证码
 				solved_result = captcha_solver("captcha.jpg")
