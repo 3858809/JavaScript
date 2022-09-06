@@ -4,6 +4,7 @@ import json
 import os
 import re
 import requests
+import time
 from telethon import TelegramClient, events
 
 API_ID = 5672799	#输入api_id，一个账号一项
