@@ -42,7 +42,7 @@ for num in range(len(api_id)):
 					result = int(formula.split(' ')[0]) - int(formula.split(' ')[2])
 				elif "乘" == js or "*" == js or "乗以" == js or "騬以" == js or "×" == js:
 					result = int(formula.split(' ')[0]) * int(formula.split(' ')[2])
-				elif "除" == js or "/" == js or "除以" == js or "處以" == js:
+				elif "除" == js or "/" == js or "除以" == js or "處以" == js or "chu以" == js:
 					result = int(formula.split(' ')[0]) / int(formula.split(' ')[2])
 				print("计算结果:", result)
 				# 匹配按钮文本并点击
