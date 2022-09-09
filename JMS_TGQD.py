@@ -5,9 +5,21 @@ from telethon import TelegramClient, events, sync
 api_id = [5672799]	#输入api_id，一个账号一项
 api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
 
-robot_map = {'@qweybgbot':'/checkin'}
+robot_map = {'@qweybgbot':'/checkin','@qweybgbot':'/checkin'}
 session_name = api_id[:]
 print("开始签到")
+
+def fujs(js,formula)
+	result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
+	if "加" == js or "+" == js or "加以" == js or "枷" == js:
+		result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
+	elif "减" == js or "-" == js or "缄" == js or "椷" == js:
+		result = int(formula.split(' ')[0]) - int(formula.split(' ')[2])
+	elif "乘" == js or "*" == js or "乗以" == js or "騬以" == js or "×" == js:
+		result = int(formula.split(' ')[0]) * int(formula.split(' ')[2])
+	elif "除" == js or "/" == js or "除以" == js or "處以" == js or "chu以" == js:
+		result = int(formula.split(' ')[0]) / int(formula.split(' ')[2])
+	return result
 
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
@@ -35,15 +47,7 @@ for num in range(len(api_id)):
 				# 计算结果 25 + 1 = ?
 				js = formula.split(' ')[1]
 				print("计算符号:", js)
-				result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-				if "加" == js or "+" == js or "加以" == js or "枷" == js:
-					result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-				elif "减" == js or "-" == js or "缄" == js:
-					result = int(formula.split(' ')[0]) - int(formula.split(' ')[2])
-				elif "乘" == js or "*" == js or "乗以" == js or "騬以" == js or "×" == js:
-					result = int(formula.split(' ')[0]) * int(formula.split(' ')[2])
-				elif "除" == js or "/" == js or "除以" == js or "處以" == js or "chu以" == js:
-					result = int(formula.split(' ')[0]) / int(formula.split(' ')[2])
+				result = fujs()
 				print("计算结果:", result)
 				# 匹配按钮文本并点击
 				for button in event.message.buttons[0]:
