@@ -9,17 +9,22 @@ robot_map = {'@qweybgbot':'/checkin','@qweybgbot':'/checkin'}
 session_name = api_id[:]
 print("开始签到")
 
-def fujs(js,*formula)
-	result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-	if "加" == js or "+" == js or "加以" == js or "枷" == js:
-		result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-	elif "减" == js or "-" == js or "缄" == js or "椷" == js:
-		result = int(formula.split(' ')[0]) - int(formula.split(' ')[2])
-	elif "乘" == js or "*" == js or "乗以" == js or "騬以" == js or "×" == js:
-		result = int(formula.split(' ')[0]) * int(formula.split(' ')[2])
-	elif "除" == js or "/" == js or "除以" == js or "處以" == js or "chu以" == js:
-		result = int(formula.split(' ')[0]) / int(formula.split(' ')[2])
-	return result
+def fujs(fuhao,formstr):
+	print("开始计算")
+	jg = 0
+	if "加" == fuhao or "+" == fuhao or "加以" == fuhao or "枷" == fuhao:
+		jg = int(formstr.split(' ')[0]) + int(formstr.split(' ')[2])
+	elif "减" == fuhao or "-" == fuhao or "缄" == fuhao or "椷" == fuhao:
+		jg = int(formstr.split(' ')[0]) - int(formstr.split(' ')[2])
+	elif "乘" == fuhao or "*" == fuhao or "乗以" == fuhao or "騬以" == fuhao or "×" == fuhao:
+		jg = int(formstr.split(' ')[0]) * int(formstr.split(' ')[2])
+	elif "除" == fuhao or "/" == fuhao or "除以" == fuhao or "處以" == fuhao or "chu以" == fuhao:
+		jg = int(formstr.split(' ')[0]) / int(formstr.split(' ')[2])
+	else
+		print("没有匹配到计算符号")
+		
+	print("计算结果=",jg)
+	return jg
 
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
