@@ -9,7 +9,7 @@ robot_map = {'@qweybgbot':'/checkin','@qweybgbot':'/checkin'}
 session_name = api_id[:]
 print("开始签到")
 
-def fujs(js,formula)
+def fujs(js,*formula)
 	result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
 	if "加" == js or "+" == js or "加以" == js or "枷" == js:
 		result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
