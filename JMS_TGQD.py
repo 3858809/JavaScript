@@ -45,6 +45,7 @@ for num in range(len(api_id)):
 				print("获取的信息: ", event.message.text)
 				if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
 					print("已经签到过了")
+					i += 100
 				elif event.message.buttons:
 					# 获取算式 卷毛鼠
 					# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
@@ -58,6 +59,9 @@ for num in range(len(api_id)):
 					print("计算符号:", js)
 					result = fujs(js,formula)
 					print("计算结果:", result)
+					if result != 10086 :
+						i += 100
+						
 					# 匹配按钮文本并点击
 					for button in event.message.buttons[0]:
 						if int(button.text) == result:
