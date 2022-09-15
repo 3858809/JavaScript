@@ -12,13 +12,13 @@ print("开始签到")
 def fujs(fuhao,formstr):
 	print("开始计算")
 	jg = 0
-	if "加" == fuhao or "+" == fuhao or "加以" == fuhao or "枷" == fuhao:
+	if "加" == fuhao or "+" == fuhao or "加以" == fuhao or "枷" == fuhao or "伽" == fuhao:
 		jg = int(formstr.split(' ')[0]) + int(formstr.split(' ')[2])
-	elif "减" == fuhao or "-" == fuhao or "缄" == fuhao or "椷" == fuhao:
+	elif "减" == fuhao or "－" == fuhao or "缄" == fuhao or "椷" == fuhao or "减去" == fuhao:
 		jg = int(formstr.split(' ')[0]) - int(formstr.split(' ')[2])
-	elif "乘" == fuhao or "*" == fuhao or "乗以" == fuhao or "騬以" == fuhao or "×" == fuhao:
+	elif "乘" == fuhao or "*" == fuhao or "乗以" == fuhao or "騬以" == fuhao or "×" == fuhao or "*" == fuhao or "澄以" == fuhao:
 		jg = int(formstr.split(' ')[0]) * int(formstr.split(' ')[2])
-	elif "除" == fuhao or "/" == fuhao or "除以" == fuhao or "處以" == fuhao or "chu以" == fuhao:
+	elif "除" == fuhao or "÷" == fuhao or "除以" == fuhao or "處以" == fuhao or "chu以" == fuhao:
 		jg = int(formstr.split(' ')[0]) / int(formstr.split(' ')[2])
 	else:
 		print("没有匹配到计算符号")
