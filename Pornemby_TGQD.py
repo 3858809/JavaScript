@@ -27,11 +27,11 @@ async def main():
     # 你可以给自己发消息...
     await client.send_message('me', 'Hello, myself!')
     # ...到某个聊天 ID
-    await client.send_message(-100123456, 'Hello, group!')
+    await client.send_message(1849549411, 'Hello, group!')
     # ...给您的联系人
-    await client.send_message('+34600123123', 'Hello, friend!')
+    #await client.send_message('+34600123123', 'Hello, friend!')
     # ...甚至是任何用户名
-    await client.send_message('username', 'Testing Telethon!')
+    await client.send_message('转存-小六花', 'Testing Telethon!')
 
     # 当然，您可以在消息中使用降价：
     message = await client.send_message(
