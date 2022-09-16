@@ -13,12 +13,12 @@ for num in range(len(api_id)):
 	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
 	client.start()
 	
-	async for dialog in client.iter_dialogs():
-		print(dialog.name, 'has ID', dialog.id)
+	#async for dialog in client.iter_dialogs():
+	#	print(dialog.name, 'has ID', dialog.id)
 	
 	for (k,v) in robot_map.items():
 		i = 0
-		while i<10:
+		while i<1000000:
 			i += 1
 			#client.send_message(k, v) #设置机器人和签到命令
 			time.sleep(3)
@@ -35,10 +35,11 @@ for num in range(len(api_id)):
 					i += 100
 				elif event.message.buttons:
 					print("发现按钮信息")
-					result = '是否注册'
+					result = '点击抢注册'
 					# 匹配按钮文本并点击
 					for button in event.message.buttons[0]:
-						if int(button.text) == result:
+						if result in button.text:
+							print("匹配按钮文本成功点击按钮")
 							await button.click()
 							break
 
