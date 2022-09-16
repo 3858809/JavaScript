@@ -5,13 +5,16 @@ from telethon import TelegramClient, events, sync
 api_id = [5672799]	#输入api_id，一个账号一项
 api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
 
-robot_map = {'@t.me/Pornemby':'/checkin'}
+robot_map = {'Pornemby':'/checkin'}
 session_name = api_id[:]
 
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
 	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
 	client.start()
+	
+	async for dialog in client.iter_dialogs():
+	print(dialog.name, 'has ID', dialog.id)
 	
 	for (k,v) in robot_map.items():
 		i = 0
