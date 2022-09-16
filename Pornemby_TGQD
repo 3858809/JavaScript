@@ -3,8 +3,8 @@ import time
 from telethon.sync import TelegramClient
 
 
-api_id = [5672799]	#输入api_id，一个账号一项
-api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
+api_id = 5672799	#输入api_id，一个账号一项
+api_hash = 'e08529171140eac69071c630f03f1a7a'	#输入api_hash，一个账号一项
 
 robot_map = {'@EmbyPublicBot':'/checkin','@qweybgbot':'/checkin'}
 name = 'CLIENT_NAME'
