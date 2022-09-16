@@ -21,11 +21,11 @@ async def main():
     print(me.phone)
 
     # 您可以打印您参与的所有对话/对话：
-    async for dialog in client.iter_dialogs():
-        print(dialog.name, 'has ID', dialog.id)
+    #async for dialog in client.iter_dialogs():
+    #    print(dialog.name, 'has ID', dialog.id)
 
     # 你可以给自己发消息...
-    await client.send_message('me', 'Hello, myself!')
+    #await client.send_message('me', 'Hello, myself!')
     # ...到某个聊天 ID
     await client.send_message(1849549411, 'Hello, group!')
     # ...给您的联系人
