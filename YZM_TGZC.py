@@ -1,5 +1,11 @@
 import os
 import time
+import asyncio
+import base64
+import json
+import re
+import requests
+
 from telethon import TelegramClient, events, sync
 
 api_id = [5672799]	#输入api_id，一个账号一项
@@ -37,17 +43,19 @@ for num in range(len(api_id)):
 				elif "请输入验证码" in event.message.text:  # 获取图像验证码
 					print("开始处理验证码签到!")
 					print("开始下载")
-					path = await events.message.download_media()
-					print("下载完毕!",path)
+					await client.download_media(event.message.photo, "captcha.jpg")
+					print("下载完毕!")
 					# 使用 TRUECAPTCHA 模块解析验证码
-					#solved_result = captcha_solver("captcha.jpg")
-					#if not "result" in solved_result:
-					#	await client.send_message(CHANNEL_ID, "21342")
-					#	return
-					#captcha_code = handle_captcha_solved_result(solved_result)
-					#await client.send_message(event.message.chat_id, captcha_code)
+					solved_result = captcha_solver("captcha.jpg")
+					print("solved_result=",solved_result)
+					if not "result" in solved_result:
+						await client.send_message(CHANNEL_ID, "21342")
+						return
+					captcha_code = handle_captcha_solved_result(solved_result)
+					print("captcha_code=",captcha_code)
+					await client.send_message(event.message.chat_id, captcha_code)
 					# 删除临时文件
-					#os.remove("captcha.jpg")
+					os.remove("captcha.jpg")
 				
 				elif event.message.buttons:
 					print("发现按钮信息")
