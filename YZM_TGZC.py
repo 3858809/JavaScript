@@ -5,7 +5,7 @@ from telethon import TelegramClient, events, sync
 api_id = [5672799]	#输入api_id，一个账号一项
 api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
 
-robot_map = {'Pornemby':'/checkin'}
+robot_map = {'@EmbyMistyBot':'⚡️注册账号'}
 session_name = api_id[:]
 
 for num in range(len(api_id)):
