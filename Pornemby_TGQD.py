@@ -18,7 +18,7 @@ for num in range(len(api_id)):
 	
 	for (k,v) in robot_map.items():
 		i = 0
-		while i<1000000:
+		while i<9000000:
 			i += 1
 			#client.send_message(k, v) #设置机器人和签到命令
 			time.sleep(3)
@@ -35,10 +35,9 @@ for num in range(len(api_id)):
 					i += 100
 				elif event.message.buttons:
 					print("发现按钮信息")
-					result = '点击抢注册'
 					# 匹配按钮文本并点击
 					for button in event.message.buttons[0]:
-						if result in button.text:
+						if '点击抢注册' in button.text or '红包' in button.text:
 							print("匹配按钮文本成功点击按钮")
 							await button.click()
 							break
