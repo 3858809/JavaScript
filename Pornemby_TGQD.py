@@ -14,7 +14,7 @@ for num in range(len(api_id)):
 	client.start()
 	
 	async for dialog in client.iter_dialogs():
-	print(dialog.name, 'has ID', dialog.id)
+		print(dialog.name, 'has ID', dialog.id)
 	
 	for (k,v) in robot_map.items():
 		i = 0
