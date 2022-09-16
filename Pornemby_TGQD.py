@@ -5,7 +5,7 @@ from telethon import TelegramClient, events, sync
 api_id = [5672799]	#输入api_id，一个账号一项
 api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
 
-robot_map = {'Pornemby':'/checkin'}
+robot_map = {'@PronembyTGBot2_bot':'/start'}
 session_name = api_id[:]
 
 for num in range(len(api_id)):
@@ -18,10 +18,9 @@ for num in range(len(api_id)):
 	
 	for (k,v) in robot_map.items():
 		i = 0
-		while i<9000000:
+		while i<10:
 			i += 1
-			#client.send_message(k, v) #设置机器人和签到命令
-			print("正在获取新消息")
+			client.send_message(k, v) #设置机器人和签到命令
 			time.sleep(3)
 			@client.on(events.NewMessage(chats=k))
 			async def handler(event):
@@ -38,7 +37,7 @@ for num in range(len(api_id)):
 					print("发现按钮信息")
 					# 匹配按钮文本并点击
 					for button in event.message.buttons[0]:
-						if '点击抢注册' in button.text or '红包' in button.text:
+						if '签到' in button.text:
 							print("匹配按钮文本成功点击按钮")
 							await button.click()
 							break
