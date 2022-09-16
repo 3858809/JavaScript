@@ -1,4 +1,6 @@
-from telethon import TelegramClient
+import os
+import time
+from telethon import TelegramClient, events, sync
 
 # 请记住使用来自 my.telegram.org 的您自己的值！
 api_id = 5672799	#输入api_id，一个账号一项
@@ -33,22 +35,27 @@ async def main():
     # ...甚至是任何用户名
     await client.send_message('转存-小六花', 'Testing Telethon!')
 
+	#获取实体
+	umodel = await client.get_entity('t.me/Pornemby')
+	print(umodel)
+	
     # 当然，您可以在消息中使用降价：
-    message = await client.send_message(
-        'me',
-        'This message has **bold**, `code`, __italics__ and '
-        'a [nice website](https://example.com)!',
-        link_preview=False
-    )
+    #message = await client.send_message(
+    #    'me',
+    #    'This message has **bold**, `code`, __italics__ and '
+    #    'a [nice website](https://example.com)!',
+    #    link_preview=False
+    #)
 
+	
     # 发送消息返回已发送的消息对象，您可以使用该对象
-    print(message.raw_text)
+    #print(message.raw_text)
 
     # 如果您有消息对象，您可以直接回复消息
-    await message.reply('Cool!')
+    #await message.reply('Cool!')
 
     # 或发送文件、歌曲、文档、专辑...
-    await client.send_file('me', '/home/me/Pictures/holidays.jpg')
+    #await client.send_file('me', '/home/me/Pictures/holidays.jpg')
 
     # 您可以打印任何聊天的消息历史记录：
     async for message in client.iter_messages('me'):
