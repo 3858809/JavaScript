@@ -2,62 +2,73 @@ import os
 import time
 from telethon import TelegramClient, events, sync
 
-# 请记住使用来自 my.telegram.org 的您自己的值！
-api_id = 5672799	#输入api_id，一个账号一项
-api_hash = 'e08529171140eac69071c630f03f1a7a'	#输入api_hash，一个账号一项
-client = TelegramClient('anon', api_id, api_hash)
+api_id = [5672799]	#输入api_id，一个账号一项
+api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
 
-async def main():
-	# 获取有关您自己的信息
-	me = await client.get_me()
-	# “我”是一个用户对象。 你可以漂亮地打印
-	# 任何带有“stringify”方法的 Telegram 对象：
-	print(me.stringify())
-	# 当你打印一些东西时，你会看到它的表示。
-	# 你可以访问 Telegram 对象的所有属性
-	# 点运算符。 例如，要获取用户名：
-	username = me.username
-	print(username)
-	print(me.phone)
-	# 您可以打印您参与的所有对话/对话：
-	#async for dialog in client.iter_dialogs():
-	#    print(dialog.name, 'has ID', dialog.id)
-	# 你可以给自己发消息...
-	#await client.send_message('me', 'Hello, myself!')
-	# ...到某个聊天 ID
-	await client.send_message(1849549411, 'Hello, group!')
-	# ...给您的联系人
-	#await client.send_message('+34600123123', 'Hello, friend!')
-	# ...甚至是任何用户名
-	await client.send_message('转存-小六花', 'Testing Telethon!')	
-	#获取实体
-	umodel = await client.get_entity('t.me/Pornemby')
-	print(umodel)
-	
-	# 当然，您可以在消息中使用降价：
-	#message = await client.send_message(
-	#    'me',
-	#    'This message has **bold**, `code`, __italics__ and '
-	#    'a [nice website](https://example.com)!',
-	#    link_preview=False
-	#)
-	# 发送消息返回已发送的消息对象，您可以使用该对象
-	#print(message.raw_text)
-	
-	# 如果您有消息对象，您可以直接回复消息
-	#await message.reply('Cool!')
-	
-	# 或发送文件、歌曲、文档、专辑...
-	#await client.send_file('me', '/home/me/Pictures/holidays.jpg')
-	
-	# 您可以打印任何聊天的消息历史记录：
-	async for message in client.iter_messages('me'):
-		print(message.id, message.text)
-		# 您也可以从消息中下载媒体！
-		# 该方法将返回文件保存的路径。
-		if message.photo:
-			path = await message.download_media()
-			print('File saved to', path)  # 下载完成后打印
+robot_map = {'@t.me/Pornemby':'/checkin'}
+session_name = api_id[:]
 
-with client:
-	client.loop.run_until_complete(main())
+	print("开始计算")
+	jg = 0
+	if "加" == fuhao or "+" == fuhao or "加以" == fuhao or "枷" == fuhao or "伽" == fuhao:
+		jg = int(formstr.split(' ')[0]) + int(formstr.split(' ')[2])
+	elif "减" == fuhao or "－" == fuhao or "缄" == fuhao or "椷" == fuhao or "减去" == fuhao:
+		jg = int(formstr.split(' ')[0]) - int(formstr.split(' ')[2])
+	elif "乘" == fuhao or "*" == fuhao or "乗以" == fuhao or "騬以" == fuhao or "×" == fuhao or "*" == fuhao or "澄以" == fuhao:
+		jg = int(formstr.split(' ')[0]) * int(formstr.split(' ')[2])
+	elif "除" == fuhao or "÷" == fuhao or "除以" == fuhao or "處以" == fuhao or "chu以" == fuhao:
+		jg = int(formstr.split(' ')[0]) / int(formstr.split(' ')[2])
+	else:
+		print("没有匹配到计算符号")
+		jg = 10086
+		
+	print("计算结果=",jg)
+	return j
+for num in range(len(api_id)):
+	session_name[num] = "id_" + str(session_name[num])
+	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
+	client.start()
+	
+	for (k,v) in robot_map.items():
+		i = 0
+		while i<10:
+			i += 1
+			#client.send_message(k, v) #设置机器人和签到命令
+			time.sleep(3)
+			@client.on(events.NewMessage(chats=k))
+			async def handler(event):
+				global i
+				print("当前获取对象:", k)
+				print("本次为第", i,"次获取信息")
+				# 获取带按钮的消息
+				print("获取的信息: ", event.message.text)
+				if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
+					print("已经签到过了")
+					i += 100
+				elif event.message.buttons:
+					# 获取算式 卷毛鼠
+					# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
+					formula = ""
+					if k == "@qweybgbot":
+						formula = event.message.raw_text.split('\n')[1]  #处理卷毛鼠签到格式
+					elif k == "@EmbyPublicBot":
+						formula = event.message.raw_text.split('\n\n')[1]  #处理终点站签到格式
+					# 计算结果 25 + 1 = ?
+					js = formula.split(' ')[1]
+					print("计算符号:", js)
+					result = fujs(js,formula)
+					print("计算结果:", result)
+					if result != 10086 :
+						i += 100
+						
+					# 匹配按钮文本并点击
+					for button in event.message.buttons[0]:
+						if int(button.text) == result:
+							await button.click()
+							break
+
+			client.send_read_acknowledge(k)	#将机器人回应设为已读
+		
+	client.disconnect()
+	print("Done! Session name:", session_name[num])		
+os._exit(0)
