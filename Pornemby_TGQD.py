@@ -13,7 +13,7 @@ for num in range(len(api_id)):
 	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
 	client.start()
 	
-	#async for dialog in client.iter_dialogs():
+	#for dialog in client.iter_dialogs():
 	#	print(dialog.name, 'has ID', dialog.id)
 	
 	for (k,v) in robot_map.items():
@@ -21,6 +21,7 @@ for num in range(len(api_id)):
 		while i<9000000:
 			i += 1
 			#client.send_message(k, v) #设置机器人和签到命令
+			print("正在获取新消息")
 			time.sleep(3)
 			@client.on(events.NewMessage(chats=k))
 			async def handler(event):
