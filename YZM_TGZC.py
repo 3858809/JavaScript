@@ -64,7 +64,7 @@ for num in range(len(api_id)):
 					if not "result" in solved_result:
 						await client.send_message(CHANNEL_ID, "21342")
 						return
-					await client.send_message(event.message.chat_id, captcha_code)
+					await client.send_message(event.message.chat_id, solved_result)
 					# 删除临时文件
 					os.remove("captcha.jpg")
 				
