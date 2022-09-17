@@ -34,7 +34,6 @@ async def main():
 		time.sleep(3)
 		@client.on(events.NewMessage(chats=CHANNEL_ID))
 		async def handler(event):
-			# 获取带按钮的消息
 			print("获取的信息: ", event.message.text)
 			if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
 				print("已经签到过了")
@@ -42,24 +41,17 @@ async def main():
 				print("开始处理验证码签到!")
 				print("开始下载")
 				await client.download_media(event.message.photo, "captcha.jpg")
+				time.sleep(5)
 				print("下载完毕!")
 				# 使用 TRUECAPTCHA 模块解析验证码
 				solved_result = captcha_solver("captcha.jpg")
 				print("solved_result=",solved_result)
-				await client.send_message(CHANNEL_ID, solved_result)
+				await client.send_message(event.message.chat_id, solved_result)
+				time.sleep(2)
+				print("获取消息：",event.message.text)
 				# 删除临时文件
 				os.remove("captcha.jpg")
-			elif event.message.buttons:
-				print("发现按钮信息")
-				# 匹配按钮文本并点击
-				for button in event.message.buttons[0]:
-					if '点击抢注册' in button.text or '红包' in button.text:
-						print("匹配按钮文本成功点击按钮")
-						await button.click()
-							break
-
 		await client.send_read_acknowledge(CHANNEL_ID)	#将机器人回应设为已读
-		
-	await client.disconnect()
+		await client.disconnect()
 
 asyncio.run(main())
