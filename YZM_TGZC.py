@@ -37,6 +37,7 @@ for num in range(len(api_id)):
 	
 	for (k,v) in robot_map.items():
 		i = 0
+		d = 0
 		while i<9000000:
 			i += 1
 			#client.send_message(k, v) #设置机器人和签到命令
@@ -45,6 +46,7 @@ for num in range(len(api_id)):
 			@client.on(events.NewMessage(chats=k))
 			async def handler(event):
 				global i
+				global d
 				print("当前获取对象:", k)
 				print("本次为第", i,"次获取信息")
 				# 获取带按钮的消息
@@ -53,21 +55,21 @@ for num in range(len(api_id)):
 				if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
 					print("已经签到过了")
 					i += 100
+				elif d > 0:
+					print("上一条处理还没有结束!")
 				elif "请输入验证码" in event.message.text:  # 获取图像验证码
 					print("开始处理验证码签到!")
 					print("开始下载")
+					d = 1
 					await client.download_media(event.message.photo, "captcha.jpg")
 					print("下载完毕!")
 					# 使用 TRUECAPTCHA 模块解析验证码
 					solved_result = captcha_solver("captcha.jpg")
 					print("solved_result=",solved_result)
-					if not "result" in solved_result:
-						await client.send_message(CHANNEL_ID, "21342")
-						return
-					await client.send_message(event.message.chat_id, solved_result)
+					await client.send_message(k, solved_result)
 					# 删除临时文件
 					os.remove("captcha.jpg")
-				
+					d = 0
 				elif event.message.buttons:
 					print("发现按钮信息")
 					# 匹配按钮文本并点击
