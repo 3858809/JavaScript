@@ -47,8 +47,6 @@ async def main():
 				solved_result = captcha_solver("captcha.jpg")
 				print("solved_result=",solved_result)
 				await client.send_message(event.message.chat_id, solved_result)
-				time.sleep(2)
-				print("获取消息：",event.message.text)
 				# 删除临时文件
 				os.remove("captcha.jpg")
 		await client.send_read_acknowledge(CHANNEL_ID)	#将机器人回应设为已读
