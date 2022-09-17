@@ -17,7 +17,8 @@ def captcha_solver(f):
 		}
 		response = requests.post(url = url, json = data)
 		data = response.json()
-		return data.result
+                return data['result'] 
 
 solved_result = captcha_solver("captcha.jpg")
 print("解析完毕验证码=!",solved_result)
+
