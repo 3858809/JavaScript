@@ -25,7 +25,7 @@ def captcha_solver(f):
 		}
 		response = requests.post(url = url, json = data)
 		data = response.json()
-                return data['result']
+		return data['result']
 
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
