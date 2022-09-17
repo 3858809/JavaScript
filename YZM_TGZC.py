@@ -14,6 +14,19 @@ api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号�
 robot_map = {'@EmbyMistyBot':'⚡️注册账号'}
 session_name = api_id[:]
 
+def captcha_solver(f):
+	with open(f, "rb") as image_file:
+		encoded_string = base64.b64encode(image_file.read()).decode('ascii')
+		url = 'https://api.apitruecaptcha.org/one/gettext'
+		data = { 
+			'userid':'sheriqiang@gmail.com', 
+			'apikey':'L7GYXVaB2BreQrGhzh3I',  
+			'data':encoded_string
+		}
+		response = requests.post(url = url, json = data)
+		data = response.json()
+                return data['result'] 
+
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
 	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
@@ -51,8 +64,6 @@ for num in range(len(api_id)):
 					if not "result" in solved_result:
 						await client.send_message(CHANNEL_ID, "21342")
 						return
-					captcha_code = handle_captcha_solved_result(solved_result)
-					print("captcha_code=",captcha_code)
 					await client.send_message(event.message.chat_id, captcha_code)
 					# 删除临时文件
 					os.remove("captcha.jpg")
