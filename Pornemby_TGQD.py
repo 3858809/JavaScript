@@ -44,11 +44,9 @@ for num in range(len(api_id)):
 				print("当前获取对象:", k)
 				print("本次为第", i,"次获取信息")
 				# 获取带按钮的消息
-				if '未使用10天后' in event.message.text:
-					print("获取的信息: ", event.message.text)
-				else:
+				print("获取的信息: ", event.message.text)
+				if '未使用1天后' in event.message.text or '未使用2天后' in event.message.text or '未使用3天后' in event.message.text or '未使用4天后' in event.message.text or '未使用5天后' in event.message.text or '未使用6天后' in event.message.text or '未使用7天后' in event.message.text or '未使用8天后' in event.message.text:
 					GetWXMeg(event.message.text)
-					
 				if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
 					print("已经签到过了")
 					i += 100
