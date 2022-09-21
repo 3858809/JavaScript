@@ -35,17 +35,18 @@ for num in range(len(api_id)):
 		time.sleep(3)
 		@client.on(events.NewMessage(chats=k))
 		async def handler(event):
-			#print("获取的信息: ", event.message.text)
-			print("检查到期天数")
-			text = event.message.text.split('帐号剩余有效期:')[1]
-			print("text=",text)
-			text1 =  text.split('**')[1]
-			text1 = re.sub("\D","",text1) 
-			print("text1=",text1)
-			day = int(text1)
-			print("剩余天数=",day)
-			if day < 200:
-				GetWXMeg('终点站帐号剩余' + str(day) + '天')
+			if "帐号剩余有效期:" in event.message.text:
+				#print("获取的信息: ", event.message.text)
+				print("检查到期天数")
+				text = event.message.text.split('帐号剩余有效期:')[1]
+				print("text=",text)
+				text1 =  text.split('**')[1]
+				text1 = re.sub("\D","",text1) 
+				print("text1=",text1)
+				day = int(text1)
+				print("剩余天数=",day)
+				if day < 200:
+					GetWXMeg('终点站帐号剩余' + str(day) + '天')
 
 		print("执行指令",v)
 		client.send_message(k, v) #设置机器人和签到命令
