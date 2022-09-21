@@ -8,6 +8,22 @@ api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号�
 robot_map = {'@PronembyTGBot2_bot':'/start'}
 session_name = api_id[:]
 
+def GetWXMeg(text):
+	url = 'http://wxpusher.zjiecode.com/api/send/message'
+	data = { 
+		'appToken':'AT_OdRi5Z4hzWMr225NfPVHhXVSmfN59GeR', 
+		'content':text,  
+		'summary':'summary',
+		'contentType':1,
+		'uids':['UID_8krNXTxaevo6ogJ1g1W3wTnhZpZR'],
+		'url':'https%3A%2F%2Fpornemby.club%2Fweb%2Findex.html'
+	}
+	response = requests.post(url = url, json = data)
+	data = response.json()
+	return 'ok'
+
+GetWXMeg('你好')
+
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
 	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
