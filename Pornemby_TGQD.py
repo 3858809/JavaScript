@@ -15,7 +15,7 @@ def GetWXMeg(text):
 	data = { 
 		'appToken':'AT_OdRi5Z4hzWMr225NfPVHhXVSmfN59GeR', 
 		'content':text,  
-		'summary':'summary',
+		'summary':'PornEmby自动查看异常',
 		'contentType':1,
 		'uids':['UID_8krNXTxaevo6ogJ1g1W3wTnhZpZR'],
 		'url':'https%3A%2F%2Fpornemby.club%2Fweb%2Findex.html'
@@ -44,8 +44,11 @@ for num in range(len(api_id)):
 				print("当前获取对象:", k)
 				print("本次为第", i,"次获取信息")
 				# 获取带按钮的消息
-				print("获取的信息: ", event.message.text)
-				GetWXMeg(event.message.text)
+				if '未使用10天后' in event.message.text:
+					print("获取的信息: ", event.message.text)
+				else:
+					GetWXMeg(event.message.text)
+					
 				if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
 					print("已经签到过了")
 					i += 100
