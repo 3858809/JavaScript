@@ -1,5 +1,7 @@
 import os
 import time
+import json
+import requests
 from telethon import TelegramClient, events, sync
 
 api_id = [5672799]	#输入api_id，一个账号一项
@@ -22,8 +24,6 @@ def GetWXMeg(text):
 	data = response.json()
 	return 'ok'
 
-GetWXMeg('你好')
-
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
 	client = TelegramClient(session_name[num], api_id[num], api_hash[num])
@@ -34,7 +34,7 @@ for num in range(len(api_id)):
 	
 	for (k,v) in robot_map.items():
 		i = 0
-		while i<10:
+		while i<1:
 			i += 1
 			client.send_message(k, v) #设置机器人和签到命令
 			time.sleep(3)
@@ -45,7 +45,7 @@ for num in range(len(api_id)):
 				print("本次为第", i,"次获取信息")
 				# 获取带按钮的消息
 				print("获取的信息: ", event.message.text)
-				
+				GetWXMeg(event.message.text)
 				if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
 					print("已经签到过了")
 					i += 100
