@@ -45,7 +45,7 @@ for num in range(len(api_id)):
 				print("text1=",text1)
 				day = int(text1)
 				print("剩余天数=",day)
-				if day < 200:
+				if day < 60:
 					GetWXMeg('终点站帐号剩余' + str(day) + '天')
 
 		print("执行指令",v)
