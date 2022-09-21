@@ -1,5 +1,7 @@
 import os
 import time
+import re
+import requests
 from telethon import TelegramClient, events, sync
 
 api_id = [5672799]	#输入api_id，一个账号一项
@@ -30,6 +32,24 @@ for num in range(len(api_id)):
 	client.start()
 	
 	for (k,v) in robot_map.items():
+
+		client.send_message(k, '/create') #设置机器人和签到命令
+		time.sleep(3)
+		@client.on(events.NewMessage(chats=k))
+		async def handler(event):
+			print("获取的信息: ", event.message.text)
+			print("检查到期天数")
+				text = event.message.text.split('帐号剩余有效期:')[1]
+				print("text=",text)
+				text1 =  text.split('**')[1]
+				text1 = re.sub("\D","",text1) 
+				print("text1=",text1)
+				day = int(text1)
+				print("剩余天数=",day)
+				if day < 200:
+					GetWXMeg('终点站帐号剩余' + str(day) + '天')
+
+		print("执行指令",v)
 		client.send_message(k, v) #设置机器人和签到命令
 		time.sleep(3)
 		@client.on(events.NewMessage(chats=k))
@@ -38,10 +58,16 @@ for num in range(len(api_id)):
 			# 获取带按钮的消息
 			print("获取的信息: ", event.message.text)
 			if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text or "/create" in v:
-				print("已经签到过了")
+				#print("已经签到过了")
 				if "/create" in v:
-					text = event.message.text.split('帐号剩余有效期: ')[1]
-					day = int(text.split(' 天')[0])
+					print("检查到期天数")
+					text = event.message.text.split('帐号剩余有效期:')[1]
+					print("text=",text)
+					text1 =  text.split('**')[1]
+					text1 = re.sub("\D","",text1) 
+					print("text1=",text1)
+					day = int(text1)
+					print("剩余天数=",day)
 					if day < 200:
 						GetWXMeg('终点站帐号剩余' + str(day) + '天')
 			elif event.message.buttons:
