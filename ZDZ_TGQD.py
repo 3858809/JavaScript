@@ -7,10 +7,8 @@ from telethon import TelegramClient, events, sync
 api_id = [5672799]	#输入api_id，一个账号一项
 api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
 
-robot_map = {'@EmbyPublicBot':'/create','@EmbyPublicBot':'/checkin'}
+robot_map = {'@EmbyPublicBot':'/checkin'}
 session_name = api_id[:]
-print("开始签到")
-
 
 def GetWXMeg(text):
 	url = 'http://wxpusher.zjiecode.com/api/send/message'
@@ -37,17 +35,17 @@ for num in range(len(api_id)):
 		time.sleep(3)
 		@client.on(events.NewMessage(chats=k))
 		async def handler(event):
-			print("获取的信息: ", event.message.text)
+			#print("获取的信息: ", event.message.text)
 			print("检查到期天数")
-				text = event.message.text.split('帐号剩余有效期:')[1]
-				print("text=",text)
-				text1 =  text.split('**')[1]
-				text1 = re.sub("\D","",text1) 
-				print("text1=",text1)
-				day = int(text1)
-				print("剩余天数=",day)
-				if day < 200:
-					GetWXMeg('终点站帐号剩余' + str(day) + '天')
+			text = event.message.text.split('帐号剩余有效期:')[1]
+			print("text=",text)
+			text1 =  text.split('**')[1]
+			text1 = re.sub("\D","",text1) 
+			print("text1=",text1)
+			day = int(text1)
+			print("剩余天数=",day)
+			if day < 200:
+				GetWXMeg('终点站帐号剩余' + str(day) + '天')
 
 		print("执行指令",v)
 		client.send_message(k, v) #设置机器人和签到命令
@@ -58,18 +56,7 @@ for num in range(len(api_id)):
 			# 获取带按钮的消息
 			print("获取的信息: ", event.message.text)
 			if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text or "/create" in v:
-				#print("已经签到过了")
-				if "/create" in v:
-					print("检查到期天数")
-					text = event.message.text.split('帐号剩余有效期:')[1]
-					print("text=",text)
-					text1 =  text.split('**')[1]
-					text1 = re.sub("\D","",text1) 
-					print("text1=",text1)
-					day = int(text1)
-					print("剩余天数=",day)
-					if day < 200:
-						GetWXMeg('终点站帐号剩余' + str(day) + '天')
+				print("已经签到过了")
 			elif event.message.buttons:
 				# 获取算式 卷毛鼠
 				# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
