@@ -68,7 +68,7 @@ while 1==1:
 		print("发送验证码=",YZM) 
 		client.send_message(channel_link, YZM) #发送签到验证码
 		time.sleep(3)
-	elif "已经签到过了" in newmeg or "签到成功" in newmeg:
+	elif "今天已签过到" in newmeg or "签到成功" in newmeg:
 		print("已经签到过")
 		break
 	else:
