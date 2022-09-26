@@ -37,21 +37,9 @@ def XZYZM():
 		break
 	print("下载完毕")
 
-def HQXX()
-	channel_username='EmbyPublicBot' # your channel
-	channel_entity=client.get_entity(channel_username)
-	posts = client(GetHistoryRequest(
-	peer=channel_entity,
-	limit=100,
-	offset_date=None,
-	offset_id=0,
-	max_id=0,
-	min_id=0,
-	add_offset=0,
-	hash=0))
-	for meg in posts.messages:
-		print(meg)
-	
+def HQXX():
+	for message in client.iter_messages(channel_link):
+		return message.text
 def captcha_solver(f):
 	with open(f, "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read()).decode('ascii')
@@ -65,14 +53,25 @@ def captcha_solver(f):
 		data = response.json()
 		return data['result']
 	
-client.send_message(channel_link, QDmeg) #发送签到命令
-time.sleep(1)
-XZYZM()#下载验证码图片
-time.sleep(2)
-YZM = captcha_solver(channel_link + "/YZM.jpg")
-print("识别的验证码=",YZM)
-HQXX()
-#client.send_message(channel_link, YZM) #发送签到验证码
-
+#client.send_message(channel_link, QDmeg) #发送签到命令
+while 1==1:
+	time.sleep(2)
+	newmeg = HQXX()
+	print("获取的新信息=",newmeg)
+	if newmeg == '/checkin':
+		client.send_message(channel_link,"/cancel")
+		time.sleep(1)
+		client.send_message(channel_link, QDmeg) #发送签到命令
+	elif "签到验证码" in  newmeg:
+		XZYZM()#下载验证码图片
+		YZM = captcha_solver(channel_link + "/YZM.jpg")
+		print("发送验证码=",YZM) 
+		client.send_message(channel_link, YZM) #发送签到验证码
+		time.sleep(3)
+	elif "已经签到过了" in newmeg or "签到成功" in newmeg:
+		print("已经签到过")
+		break
+	else:
+		client.send_message(channel_link, YZM) #发送签到验证码
 client.disconnect()
 print("脚本结束")
