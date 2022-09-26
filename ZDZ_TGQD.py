@@ -25,6 +25,7 @@ QDmeg = "/checkin"
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
+
 #微信提醒
 def GetWXMeg(text):
 	url = 'http://wxpusher.zjiecode.com/api/send/message'
