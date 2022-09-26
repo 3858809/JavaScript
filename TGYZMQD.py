@@ -4,6 +4,7 @@ import asyncio
 import base64
 import json
 import re
+import requests
 
 from telethon import TelegramClient,sync
 from telethon.tl.types import InputMessagesFilterPhotos
@@ -36,6 +37,21 @@ def XZYZM():
 		break
 	print("下载完毕")
 
+def HQXX()
+	channel_username='EmbyPublicBot' # your channel
+	channel_entity=client.get_entity(channel_username)
+	posts = client(GetHistoryRequest(
+	peer=channel_entity,
+	limit=100,
+	offset_date=None,
+	offset_id=0,
+	max_id=0,
+	min_id=0,
+	add_offset=0,
+	hash=0))
+	for meg in posts.messages:
+		print(meg)
+	
 def captcha_solver(f):
 	with open(f, "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read()).decode('ascii')
@@ -52,10 +68,11 @@ def captcha_solver(f):
 client.send_message(channel_link, QDmeg) #发送签到命令
 time.sleep(1)
 XZYZM()#下载验证码图片
-time.sleep(3)
+time.sleep(2)
 YZM = captcha_solver(channel_link + "/YZM.jpg")
 print("识别的验证码=",YZM)
-client.send_message(channel_link, YZM) #发送签到验证码
+HQXX()
+#client.send_message(channel_link, YZM) #发送签到验证码
 
 client.disconnect()
 print("脚本结束")
