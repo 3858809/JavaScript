@@ -72,6 +72,6 @@ while 1==1:
 		print("已经签到过")
 		break
 	else:
-		client.send_message(channel_link, YZM) #发送签到验证码
+		client.send_message(channel_link, QDmeg) #发送签到验证码
 client.disconnect()
 print("脚本结束")
