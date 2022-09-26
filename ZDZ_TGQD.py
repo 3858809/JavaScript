@@ -3,6 +3,8 @@ import time
 import re
 import requests
 from telethon import TelegramClient, events, sync
+from telethon.tl.types import InputMessagesFilterPhotos
+proxy = None
 
 api_id = [5672799]	#输入api_id，一个账号一项
 api_hash = ['e08529171140eac69071c630f03f1a7a']	#输入api_hash，一个账号一项
@@ -23,6 +25,32 @@ def GetWXMeg(text):
 	response = requests.post(url = url, json = data)
 	data = response.json()
 	return 'ok'
+
+#下载验证码图片
+def XZYZM():
+	photos = client.get_messages(channel_link, None, filter=InputMessagesFilterPhotos)
+	index = 0
+	for photo in photos:
+		filename = channel_link + "/YZM.jpg"
+		index = index + 1
+		if index == 1:
+			client.download_media(photo, filename)
+		break
+	print("下载完毕")
+
+def captcha_solver(f):
+	with open(f, "rb") as image_file:
+		encoded_string = base64.b64encode(image_file.read()).decode('ascii')
+		url = 'https://api.apitruecaptcha.org/one/gettext'
+		data = { 
+			'userid':'sheriqiang@gmail.com', 
+			'apikey':'L7GYXVaB2BreQrGhzh3I',  
+			'data':encoded_string
+		}
+		response = requests.post(url = url, json = data)
+		data = response.json()
+		return data['result']
+	
 
 for num in range(len(api_id)):
 	session_name[num] = "id_" + str(session_name[num])
@@ -58,33 +86,12 @@ for num in range(len(api_id)):
 			print("获取的信息: ", event.message.text)
 			if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text or "/create" in v:
 				print("已经签到过了")
-			elif event.message.buttons:
-				# 获取算式 卷毛鼠
-				# '请回答下面的问题：\n32 處以 4 = ? (请在60秒内回答)'
-				formula = ""
-				if k == "@qweybgbot":
-					formula = event.message.raw_text.split('\n')[1]  #处理卷毛鼠签到格式
-				elif k == "@EmbyPublicBot":
-					formula = event.message.raw_text.split('\n\n')[1]  #处理终点站签到格式
-				# 计算结果 25 + 1 = ?
-				js = formula.split(' ')[1]
-				print("计算符号:", js)
-				result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-				if "加" == js or "+" == js or "加以" == js or "枷" == js:
-					result = int(formula.split(' ')[0]) + int(formula.split(' ')[2])
-				elif "减" == js or "-" == js or "缄" == js:
-					result = int(formula.split(' ')[0]) - int(formula.split(' ')[2])
-				elif "乘" == js or "*" == js or "乗以" == js or "騬以" == js or "×" == js:
-					result = int(formula.split(' ')[0]) * int(formula.split(' ')[2])
-				elif "除" == js or "/" == js or "除以" == js or "處以" == js:
-					result = int(formula.split(' ')[0]) / int(formula.split(' ')[2])
-				print("计算结果:", result)
-				# 匹配按钮文本并点击
-				for button in event.message.buttons[0]:
-					if int(button.text) == result:
-						await button.click()
-						break
-
+			elif "签到验证码" in event.message.text:
+				XZYZM()
+				time.sleep(3)
+				YZM = captcha_solver(channel_link + "/YZM.jpg")
+				print("识别的验证码=",YZM)
+				#client.send_message(channel_link, YZM) #发送签到验证码
 		client.send_read_acknowledge(k)	#将机器人回应设为已读
 		client.disconnect()
 	print("Done! Session name:", session_name[num])		
