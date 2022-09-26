@@ -6,13 +6,40 @@ import json
 import re
 import requests
 
-from telethon import TelegramClient, events, sync
+from telethon import TelegramClient,sync
+from telethon.tl.types import InputMessagesFilterPhotos
+proxy = None
+# =============需要被替换的值=================
+'''
+api_id 你的api id
+api_hash 你的api hash
+channel_link 要下载图片的频道链接
+proxy 将localhost改成代理地址,12345改成代理端口
+picture_storage_path 图片下载到的路径
+'''
+api_id = 5672799
+api_hash = "e08529171140eac69071c630f03f1a7a"
+channel_link = "blueseamusic_bot"
+QDmeg = "/checkin"
+#proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
+# ==========================================
+client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
-api_id = 5672799	#输入api_id，一个账号一项
-api_hash = 'e08529171140eac69071c630f03f1a7a'	#输入api_hash，一个账号一项
+#下载验证码图片
+def XZYZM():
+	photos = client.get_messages(channel_link, None, filter=InputMessagesFilterPhotos)
+	index = 0
+	for photo in photos:
+		filename = channel_link + "/YZM.jpg"
+		index = index + 1
+		if index == 1:
+			client.download_media(photo, filename)
+		break
+	print("下载完毕")
 
-i = 0
-
+def HQXX():
+	for message in client.iter_messages(channel_link):
+		return message.text
 def captcha_solver(f):
 	with open(f, "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read()).decode('ascii')
@@ -25,34 +52,26 @@ def captcha_solver(f):
 		response = requests.post(url = url, json = data)
 		data = response.json()
 		return data['result']
-
-async def main():
-	MSG = '/checkin'
-	CHANNEL_ID = '@blueseamusic_bot'
-	async with TelegramClient("CLIENT_NAME", api_id, api_hash) as client:
-		await client.send_message(CHANNEL_ID, MSG)
+	
+#client.send_message(channel_link, QDmeg) #发送签到命令
+while 1==1:
+	time.sleep(2)
+	newmeg = HQXX()
+	print("获取的新信息=",newmeg)
+	if newmeg == '/checkin':
+		client.send_message(channel_link,"/cancel")
+		time.sleep(1)
+		client.send_message(channel_link, QDmeg) #发送签到命令
+	elif "签到验证码" in  newmeg:
+		XZYZM()#下载验证码图片
+		YZM = captcha_solver(channel_link + "/YZM.jpg")
+		print("发送验证码=",YZM) 
+		client.send_message(channel_link, YZM) #发送签到验证码
 		time.sleep(3)
-		@client.on(events.NewMessage(chats=CHANNEL_ID))
-		async def handler(event):
-			global i
-			print("获取的信息: ", event.message.text)
-			if "您距离下次可签到时间还剩" in event.message.text or "已经签到过了" in event.message.text:
-				print("已经签到过了")
-				i = 1
-			elif "请输入验证码" in event.message.text:  # 获取图像验证码
-				print("开始处理验证码签到!")
-				print("开始下载")
-				await client.download_media(event.message.photo, "captcha.jpg")
-				time.sleep(5)
-				print("下载完毕!")
-				# 使用 TRUECAPTCHA 模块解析验证码
-				solved_result = captcha_solver("captcha.jpg")
-				print("solved_result=",solved_result)
-				await client.send_message(event.message.chat_id, solved_result)
-				# 删除临时文件
-				os.remove("captcha.jpg")
-		await client.send_read_acknowledge(CHANNEL_ID)	#将机器人回应设为已读
-		await client.disconnect()
-
-while i == 0:
-	asyncio.run(main())
+	elif "已经签到过了" in newmeg or "签到成功" in newmeg:
+		print("已经签到过")
+		break
+	else:
+		client.send_message(channel_link, QDmeg) #发送签到验证码
+client.disconnect()
+print("脚本结束")
