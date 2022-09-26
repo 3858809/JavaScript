@@ -101,6 +101,6 @@ while 1==1:
 			GetWXMeg('终点站帐号剩余' + str(day) + '天')
 		break
 	else:
-		client.send_message(channel_link, YZM) #发送签到验证码
+		client.send_message(channel_link, QDmeg) #发送签到验证码
 client.disconnect()
 print("脚本结束")
