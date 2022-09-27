@@ -53,7 +53,7 @@ def captcha_solver(f):
 		data = response.json()
 		return data['result']
 	
-#client.send_message(channel_link, QDmeg) #发送签到命令
+client.send_message(channel_link, QDmeg) #发送签到命令
 while 1==1:
 	time.sleep(2)
 	newmeg = HQXX()
