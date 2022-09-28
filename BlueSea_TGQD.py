@@ -73,5 +73,7 @@ while 1==1:
 		break
 	else:
 		client.send_message(channel_link, QDmeg) #发送签到验证码
+
+client.send_read_acknowledge(channel_link)#将机器人回应设为已读
 client.disconnect()
 print("脚本结束")
