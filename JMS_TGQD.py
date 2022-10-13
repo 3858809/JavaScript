@@ -25,8 +25,8 @@ QDmeg = "/checkin"
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
-API_KEY = '*********' # 自行获取
-SECRET_KEY = '************'  # 自行获取
+API_KEY = 'GWEfyapMzFcjc' # 自行获取
+SECRET_KEY = 'k39i32FaGtVfGvjU4Ds'  # 自行获取
 OCR_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic"  # OCR接口
 TOKEN_URL = 'https://aip.baidubce.com/oauth/2.0/token'  # TOKEN获取接口
 
@@ -95,7 +95,7 @@ def pic2text(img_path):
             if result_err: # 打印失败信息
                 print(result_err)
             for result in results: # 打印处理结果
-                print(result)
+                return result
 
 
 #微信提醒
@@ -146,45 +146,56 @@ def captcha_solver(f):
 	
 client.send_message(channel_link, QDmeg) #发送签到命令
 while 1==1:
-	time.sleep(2)
+	time.sleep(1)
 	newmeg = HQXX()
 	print("获取的新信息=",newmeg.text)
-	if newmeg.text == '/checkin':
-		client.send_message(channel_link,"/cancel")
+	if '验证失败' in newmeg.text:
 		time.sleep(1)
 		client.send_message(channel_link, QDmeg) #发送签到命令
-	elif "请按顺序点击图片中出现的文字" in  newmeg.text:
+	elif "按顺序点击" in  newmeg.text:
+		print("获取到签到信息")
 		XZYZM()#下载验证码图片
 		##YZM = captcha_solver(channel_link + "/YZM.jpg")
+		time.sleep(2)
 		YZM = pic2text(channel_link + "/YZM.jpg")
-		print("发送验证码=",YZM) 
-		
+		YZM = YZM['words'] 
+		print("识别的验证码=",YZM)
+		print("识别的验证码长度=",len(YZM))
+		if len(YZM)<4:
+			print("识别准确率差太大跳过本次签到进行新的一次签到")
+			client.send_message(channel_link, QDmeg) #发送签到命令
+			continue
+		sl = 0
 		for j in YZM:
-			print j
+			sfzd = 0
+			newmeg2 = HQXX()
+			if "验证失败" in newmeg2.text:
+				break
+			print ("开始点击按钮:",j)
 			for button in newmeg.buttons[0]:
 				if j in button.text:
 					print("匹配按钮文本成功点击按钮:"+j)
-					await button.click()
+					button.click()
+					sl = sl+1
+					sfzd = 1
 					break
+			for button in newmeg.buttons[1]:
+				if j in button.text:
+					print("匹配按钮文本成功点击按钮:"+j)
+					button.click()
+					sl = sl+1
+					sfzd = 1
+					break
+			time.sleep(1)
+			if sfzd == 0:
+				client.send_message(channel_link, QDmeg) #发送签到命令
+				break
+			print("开始点击下一个按钮")
 		
 		#client.send_message(channel_link, YZM) #发送签到验证码
-		time.sleep(3)
-	elif "已经签到过了" in newmeg.text or "签到成功" in newmeg.text:
-		print("已经签到过")
-		#已经签到过 查询到期时间
-		print("开始查询到期时间")
-		client.send_message(channel_link, "/create") #发送签到验证码
 		time.sleep(1)
-		newmeg = HQXX()
-		text = newmeg.text.split('帐号剩余有效期:')[1]
-		print("text=",text)
-		text1 =  text.split('**')[1]
-		text1 = re.sub("\D","",text1) 
-		print("text1=",text1)
-		day = int(text1)
-		print("剩余天数=",day)
-		if day < 60:
-			GetWXMeg('终点站帐号剩余' + str(day) + '天')
+	elif "您距离下次可签到时间" in newmeg.text:
+		print("已经签到过")
 		break
 	else:
 		client.send_message(channel_link, QDmeg) #发送签到验证码
