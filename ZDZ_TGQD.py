@@ -5,6 +5,7 @@ import base64
 import json
 import re
 import requests
+import datetime
 
 from telethon import TelegramClient,sync
 from telethon.tl.types import InputMessagesFilterPhotos
@@ -24,7 +25,6 @@ QDmeg = "/checkin"
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
-
 
 #微信提醒
 def GetWXMeg(text):
@@ -69,8 +69,32 @@ def captcha_solver(f):
 		data = response.json()
 		return data['result']
 	
-client.send_message(channel_link, QDmeg) #发送签到命令
-while 1==1:
+def setjson(key,text):
+	with open("/home/tgqd/qd.json", "r",encoding='utf-8') as jsonFile:
+		data = json.load(jsonFile)
+	tmp = data[key]
+	data[key] = text
+	with open("/home/tgqd/qd.json", "w") as jsonFile:
+		json.dump(data, jsonFile,ensure_ascii=False)
+
+def getjson(key):
+	with open("/home/tgqd/qd.json", "r",encoding='utf-8') as jsonFile:
+		data = json.load(jsonFile)
+	return data[key]
+
+qdsj = getjson("zdz") 
+print("终点站上一次签到时间：",qdsj) 
+dqsj = str(datetime.date.today())
+print("当前时间：",dqsj)
+#setjson("zdz",dqsj) 
+#qdzt = getjson("zdz")
+#print("终点站签到状态：",qdzt)
+
+dqsj_t = datetime.datetime.strptime(dqsj, "%Y-%m-%d")
+qdsj_t = datetime.datetime.strptime(qdsj, "%Y-%m-%d")
+if dqsj_t > qdsj_t:
+	client.send_message(channel_link, QDmeg) #发送签到命令
+while dqsj_t > qdsj_t:
 	time.sleep(2)
 	newmeg = HQXX()
 	print("获取的新信息=",newmeg)
@@ -86,6 +110,7 @@ while 1==1:
 		time.sleep(3)
 	elif "已经签到过了" in newmeg or "签到成功" in newmeg:
 		print("已经签到过")
+		setjson("zdz",str(datetime.date.today()))
 		#已经签到过 查询到期时间
 		print("开始查询到期时间")
 		client.send_message(channel_link, "/create") #发送签到验证码
@@ -103,7 +128,6 @@ while 1==1:
 		break
 	else:
 		client.send_message(channel_link, QDmeg) #发送签到验证码
-
 client.send_read_acknowledge(channel_link) #将机器人回应设为已读
 client.disconnect()
 print("脚本结束")
