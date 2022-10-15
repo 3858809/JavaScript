@@ -5,6 +5,7 @@ import base64
 import json
 import re
 import requests
+import datetime
 
 from telethon import TelegramClient,sync
 from telethon.tl.types import InputMessagesFilterPhotos
@@ -25,12 +26,21 @@ QDmeg = "/checkin"
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
-API_KEY = 'GWEfyapMzFcjc' # 自行获取
-SECRET_KEY = 'k39i32FaGtVfGvjU4Ds'  # 自行获取
+API_KEY = '123' # 自行获取
+SECRET_KEY = '456'  # 自行获取
 OCR_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic"  # OCR接口
 TOKEN_URL = 'https://aip.baidubce.com/oauth/2.0/token'  # TOKEN获取接口
 
+API_KEY_LIST = {0: 'key1', 1: 'key2'}
+SECRET_KEY_LIST = {0: 'secret1', 1: 'secret2'}
+QDAPI = 0 
+
 def fetch_token():
+    global API_KEY
+    global SECRET_KEY
+    global QDAPI
+    API_KEY = API_KEY_LIST[QDAPI]
+    SECRET_KEY = SECRET_KEY_LIST[QDAPI]
     # 获取token
     params = {'grant_type': 'client_credentials',
               'client_id': API_KEY,
@@ -143,9 +153,30 @@ def captcha_solver(f):
 		response = requests.post(url = url, json = data)
 		data = response.json()
 		return data['result']
-	
-client.send_message(channel_link, QDmeg) #发送签到命令
-while 1==1:
+
+def setjson(key,text):
+	with open("/home/tgqd/qd.json", "r",encoding='utf-8') as jsonFile:
+		data = json.load(jsonFile)
+	tmp = data[key]
+	data[key] = text
+	with open("/home/tgqd/qd.json", "w") as jsonFile:
+		json.dump(data, jsonFile,ensure_ascii=False)
+
+def getjson(key):
+	with open("/home/tgqd/qd.json", "r",encoding='utf-8') as jsonFile:
+		data = json.load(jsonFile)
+	return data[key]
+
+qdsj = getjson("jms")
+print("卷毛鼠上一次签到时间：",qdsj)
+dqsj = str(datetime.date.today())
+print("当前时间：",dqsj)
+dqsj_t = datetime.datetime.strptime(dqsj, "%Y-%m-%d")
+qdsj_t = datetime.datetime.strptime(qdsj, "%Y-%m-%d")
+
+if dqsj_t > qdsj_t:	
+	client.send_message(channel_link, QDmeg) #发送签到命令
+while dqsj_t > qdsj_t:
 	time.sleep(1)
 	newmeg = HQXX()
 	print("获取的新信息=",newmeg.text)
@@ -175,14 +206,22 @@ while 1==1:
 			for button in newmeg.buttons[0]:
 				if j in button.text:
 					print("匹配按钮文本成功点击按钮:"+j)
-					button.click()
+					try:
+						button.click()
+					except:
+						print("点击按钮报错")
+						break
 					sl = sl+1
 					sfzd = 1
 					break
 			for button in newmeg.buttons[1]:
 				if j in button.text:
 					print("匹配按钮文本成功点击按钮:"+j)
-					button.click()
+					try:
+						button.click()
+					except:
+						print("点击报错")
+						break
 					sl = sl+1
 					sfzd = 1
 					break
@@ -196,6 +235,7 @@ while 1==1:
 		time.sleep(1)
 	elif "您距离下次可签到时间" in newmeg.text:
 		print("已经签到过")
+		setjson("jms",str(datetime.date.today()))
 		break
 	else:
 		client.send_message(channel_link, QDmeg) #发送签到验证码
