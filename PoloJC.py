@@ -93,7 +93,6 @@ dqsj = str(datetime.date.today())
 print("当前时间=",dqsj)
 hdsj_t = datetime.datetime.strptime(hdsj, "%Y-%m-%d")
 dqsj_t = datetime.datetime.strptime(dqsj, "%Y-%m-%d")
-print("剩余天数=",day)
 if dqsj_t > qdsj_t:
 	GetWXMeg('polo最后活动时间:' + hdsj + ',请检查自动观看是否还正常')
 
