@@ -71,15 +71,17 @@ def getjson(key):
 	return data[key]
 
 client.send_message(channel_link, QDmeg)
-time.sleep(3)
+time.sleep(10)
 newmeg = HQXX()
 for button in newmeg.buttons[0]:
-	if "帐号" in button.text:
+	if "号" in button.text:
+		print("点击账号按钮")
 		button.click()
 		time.sleep(3)
 		newmeg = HQXX()
 		for button2 in newmeg.buttons[2]:
-			if "帐号" in button2.text:
+			if "号信息" in button2.text:
+				print("点击帐号信息按钮")
 				button2.click()
 				time.sleep(3)
 				newmeg = HQXX()
