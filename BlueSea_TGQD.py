@@ -55,14 +55,14 @@ def captcha_solver(f):
 	
 client.send_message(channel_link, QDmeg) #发送签到命令
 while 1==1:
-	time.sleep(2)
+	time.sleep(60)
 	newmeg = HQXX()
 	print("获取的新信息=",newmeg)
 	if newmeg == '/checkin':
 		client.send_message(channel_link,"/cancel")
 		time.sleep(1)
 		client.send_message(channel_link, QDmeg) #发送签到命令
-	elif "签到验证码" in  newmeg:
+	elif "请输入验证码" in  newmeg:
 		XZYZM()#下载验证码图片
 		YZM = captcha_solver(channel_link + "/YZM.jpg")
 		print("发送验证码=",YZM) 
@@ -73,7 +73,6 @@ while 1==1:
 		break
 	else:
 		client.send_message(channel_link, QDmeg) #发送签到验证码
-
 client.send_read_acknowledge(channel_link) #将机器人回应设为已读
 client.disconnect()
 print("脚本结束")
