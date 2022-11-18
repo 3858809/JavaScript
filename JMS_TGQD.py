@@ -6,6 +6,7 @@ import json
 import re
 import requests
 import datetime
+import random
 
 from telethon import TelegramClient,sync
 from telethon.tl.types import InputMessagesFilterPhotos
@@ -20,19 +21,19 @@ picture_storage_path 图片下载到的路径
 '''
 api_id = 5672799
 api_hash = "e08529171140eac69071c630f03f1a7a"
-channel_link = "qweybgbot"
+channel_link = "jmsembybot"
 QDmeg = "/checkin"
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
-API_KEY = '123' # 自行获取
-SECRET_KEY = '456'  # 自行获取
+API_KEY = 'GWEfyapMzFcjcIjWuktAMn2c' # 自行获取
+SECRET_KEY = 'k39i32FaGtVfGvjU4DsamSokzfQ4ww3E'  # 自行获取
 OCR_URL = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic"  # OCR接口
 TOKEN_URL = 'https://aip.baidubce.com/oauth/2.0/token'  # TOKEN获取接口
 
-API_KEY_LIST = {0: 'key1', 1: 'key2'}
-SECRET_KEY_LIST = {0: 'secret1', 1: 'secret2'}
+API_KEY_LIST = {0: 'GWEfyapMzFcjcIjWuktAMn2c', 1: '2ASOlMVpLdwEOfe5Aq3nk6Ii'}
+SECRET_KEY_LIST = {0: 'k39i32FaGtVfGvjU4DsamSokzfQ4ww3E', 1: '2u6nryrHlrFpGt1ENDiRQfIvacDQlp5Q'}
 QDAPI = 0 
 
 def fetch_token():
@@ -87,7 +88,9 @@ def pic2text(img_path):
             )
             if req.status_code == 200:
                 result = req.json()
+                print("result=",result)
                 if 'words_result' in result.keys():
+                    print("words_result=",req.json()["words_result"])
                     return req.json()["words_result"], ''
                 elif 'error_msg' in result.keys():
                     return None, '图片识别失败: {}'.format(req.json()["error_msg"])
@@ -177,7 +180,8 @@ qdsj_t = datetime.datetime.strptime(qdsj, "%Y-%m-%d")
 if dqsj_t > qdsj_t:	
 	client.send_message(channel_link, QDmeg) #发送签到命令
 while dqsj_t > qdsj_t:
-	time.sleep(1)
+	ddms = random.randint(0,9)
+	time.sleep(ddms)
 	newmeg = HQXX()
 	print("获取的新信息=",newmeg.text)
 	if '验证失败' in newmeg.text:
@@ -185,15 +189,20 @@ while dqsj_t > qdsj_t:
 		client.send_message(channel_link, QDmeg) #发送签到命令
 	elif "按顺序点击" in  newmeg.text:
 		print("获取到签到信息")
-		XZYZM()#下载验证码图片
+		XZYZM() #下载验证码图片
 		##YZM = captcha_solver(channel_link + "/YZM.jpg")
 		time.sleep(2)
 		YZM = pic2text(channel_link + "/YZM.jpg")
+		if YZM == "":
+			time.sleep(60)
+			client.send_message(channel_link, QDmeg) #发送签到命令
+			continue
 		YZM = YZM['words'] 
 		print("识别的验证码=",YZM)
 		print("识别的验证码长度=",len(YZM))
 		if len(YZM)<4:
 			print("识别准确率差太大跳过本次签到进行新的一次签到")
+			time.sleep(60)
 			client.send_message(channel_link, QDmeg) #发送签到命令
 			continue
 		sl = 0
@@ -238,6 +247,7 @@ while dqsj_t > qdsj_t:
 		setjson("jms",str(datetime.date.today()))
 		break
 	else:
+		time.sleep(60)
 		client.send_message(channel_link, QDmeg) #发送签到验证码
 
 client.send_read_acknowledge(channel_link) #将机器人回应设为已读
