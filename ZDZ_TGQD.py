@@ -67,6 +67,7 @@ def captcha_solver(f):
 		}
 		response = requests.post(url = url, json = data)
 		data = response.json()
+		print("result=",data)
 		return data['result']
 	
 def setjson(key,text):
@@ -95,19 +96,24 @@ qdsj_t = datetime.datetime.strptime(qdsj, "%Y-%m-%d")
 if dqsj_t > qdsj_t:
 	client.send_message(channel_link, QDmeg) #发送签到命令
 while dqsj_t > qdsj_t:
-	time.sleep(2)
+	time.sleep(20)
 	newmeg = HQXX()
 	print("获取的新信息=",newmeg)
 	if newmeg == '/checkin':
 		client.send_message(channel_link,"/cancel")
-		time.sleep(1)
+		time.sleep(60)
 		client.send_message(channel_link, QDmeg) #发送签到命令
 	elif "签到验证码" in  newmeg:
-		XZYZM()#下载验证码图片
-		YZM = captcha_solver(channel_link + "/YZM.jpg")
-		print("发送验证码=",YZM) 
-		client.send_message(channel_link, YZM) #发送签到验证码
-		time.sleep(3)
+		try:
+			XZYZM()#下载验证码图片
+			YZM = captcha_solver(channel_link + "/YZM.jpg")
+			print("发送验证码=",YZM) 
+			client.send_message(channel_link, YZM) #发送签到验证码
+			time.sleep(3)
+		except:
+			client.send_message(channel_link,"/cancel")
+		else:
+			print("没有异常")
 	elif "已经签到过了" in newmeg or "签到成功" in newmeg:
 		print("已经签到过")
 		setjson("zdz",str(datetime.date.today()))
