@@ -55,7 +55,7 @@ def XZYZM():
 
 def HQXX():
 	for message in client.iter_messages(channel_link):
-		return message.text
+		return message
 def captcha_solver(f):
 	with open(f, "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read()).decode('ascii')
@@ -91,40 +91,30 @@ dqsj_t = datetime.datetime.strptime(dqsj, "%Y-%m-%d")
 qdsj_t = datetime.datetime.strptime(qdsj, "%Y-%m-%d")
 if dqsj_t > qdsj_t:
 	client.send_message(channel_link, QDmeg) #发送签到命令
+time.sleep(3)
 while dqsj_t > qdsj_t:
-	time.sleep(60)
+	time.sleep(30)
 	newmeg = HQXX()
-	print("获取的新信息=",newmeg)
-	if "请在下方选择您要使用的功能!" in  newmeg:
+	print("获取的新信息=",newmeg.text)
+	time.sleep(10)
+	if "请在下方选择您要使用的功能" in  newmeg.text:
+		print("进入签到操作页面")
 		for button in newmeg.buttons[0]:
 			print("按钮文本=",button.text)
 			if "签到" in button.text:
 				button.click()
-				
-	elif "已经签到过了" in newmeg or "签到成功" in newmeg:
+	elif "请输入验证码" in newmeg.text:
+		print("已经进入了验证码阶段")
+		XZYZM()#下载验证码图片
+		YZM = captcha_solver(channel_link + "/YZM.jpg")
+		print("发送验证码=",YZM)
+		client.send_message(channel_link, YZM) #发送签到验证码
+		time.sleep(10)			
+	elif "已经签到" in newmeg.text or "到成功，获得了" in newmeg.text:
 		print("已经签到过")
 		setjson("cc",str(datetime.date.today()))
-		#已经签到过 查询到期时间
-		print("开始查询到期时间")
-		client.send_message(channel_link, "/start")
-		time.sleep(3)
-		newmeg = HQXX()
-		for button in newmeg.buttons[0]:
-			if "帐号" in button.text:
-				button.click()
-				time.sleep(3)
-				newmeg = HQXX()
-				for button2 in newmeg.buttons[3]:
-					if "帐号信息" in button.text:
-						button.click()
-						time.sleep(3)
-						newmeg = HQXX()
-						print("账号信息=",newmeg)
-						if dqsj in newmeg:
-							print("自动浏览功能正常")
-						else:
-							GetWXMeg(newmeg)
-						break
+		qdsj = getjson("cc")
+		qdsj_t = datetime.datetime.strptime(qdsj, "%Y-%m-%d")
 	else:
 		client.send_message(channel_link, QDmeg) #发送签到验证码
 client.send_read_acknowledge(channel_link) #将机器人回应设为已读
