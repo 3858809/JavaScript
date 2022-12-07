@@ -197,6 +197,7 @@ while dqsj_t > qdsj_t:
 					except:
 						print("点击按钮报错")
 						break
+					setjson("xy",str(datetime.date.today()))	
 					break
 		time.sleep(1)
 	elif "您距离下次可签到时间" in newmeg.text:
