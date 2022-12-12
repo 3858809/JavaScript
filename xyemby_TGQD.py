@@ -22,7 +22,7 @@ picture_storage_path 图片下载到的路径
 api_id = 5672799
 api_hash = "e08529171140eac69071c630f03f1a7a"
 channel_link = "Nebula_Account_bot"
-QDmeg = "/checkin"
+QDmeg = "/start"
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
@@ -187,17 +187,17 @@ while dqsj_t > qdsj_t:
 	if '验证失败' in newmeg.text:
 		time.sleep(1)
 		client.send_message(channel_link, QDmeg) #发送签到命令
-	elif "欢迎使用签到系统" in  newmeg.text:
-		print("获取到签到信息")
+	elif "欢迎使用" in  newmeg.text:
+		print("获取查看信息面板")
 		for button in newmeg.buttons[0]:
-				if "签到" in button.text:
-					print("匹配按钮文本成功点击签到按钮")
+				if "查看信息" in button.text:
+					print("匹配按钮文本成功点击查看信息")
 					try:
 						button.click()
 					except:
 						print("点击按钮报错")
 						break
-					setjson("xy",str(datetime.date.today()))	
+					time.sleep(2)
 					break
 		time.sleep(1)
 	elif "您距离下次可签到时间" in newmeg.text:
