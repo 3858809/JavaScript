@@ -114,7 +114,7 @@ while dqsj_t > qdsj_t:
 			client.send_message(channel_link,"/cancel")
 		else:
 			print("没有异常")
-	elif "已经签到过了" in newmeg or "签到成功" in newmeg:
+	elif "已经签到过了" in newmeg or "签到成功" in newmeg or "签到功能已关闭" in newmeg:
 		print("已经签到过")
 		setjson("zdz",str(datetime.date.today()))
 		#已经签到过 查询到期时间
@@ -122,9 +122,10 @@ while dqsj_t > qdsj_t:
 		client.send_message(channel_link, "/create") #发送签到验证码
 		time.sleep(1)
 		newmeg = HQXX()
-		text = newmeg.split('帐号剩余有效期:')[1]
+		print("获取的所有信息:",newmeg)
+		text = newmeg.split('剩余有效')[1]
 		print("text=",text)
-		text1 =  text.split('**')[1]
+		text1 =  text.split('天')[0]
 		text1 = re.sub("\D","",text1) 
 		print("text1=",text1)
 		day = int(text1)
