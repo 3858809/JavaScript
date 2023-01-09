@@ -99,7 +99,7 @@ while dqsj_t > qdsj_t:
 	time.sleep(10)
 	if "请在下方选择您要使用的功能" in  newmeg.text:
 		print("进入签到操作页面")
-		for button in newmeg.buttons[0]:
+		for button in newmeg.buttons[1]:
 			print("按钮文本=",button.text)
 			if "签到" in button.text:
 				button.click()
