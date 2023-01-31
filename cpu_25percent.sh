@@ -1,4 +1,4 @@
-cpuq=$(lscpu | awk '/^CPU\(/{print $NF*100/4}');
+cpuq=$(lscpu | awk '/^CPU\(/{print $NF*100/9}');
 [ -d "/opt/shuaibi" ] || mkdir -p /opt/shuaibi;
 cat << eof > /opt/shuaibi/cpu.sh;
 cpuc=$(lscpu | awk '/^CPU\(/{print $NF}');
