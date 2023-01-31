@@ -17,7 +17,7 @@ ins_opt () {
 }
 
 set_cpu_net () {
-    cpuq=$(lscpu | awk '/^CPU\(/{print $NF*100/4}');
+    cpuq=$(lscpu | awk '/^CPU\(/{print $NF*100/10}');
     [ -d "/opt/shuaibi" ] || mkdir -p /opt/shuaibi;
     cat << eof > /opt/shuaibi/cpu_net.sh;
     cpuc=$(lscpu | awk '/^CPU\(/{print $NF}');
@@ -36,7 +36,7 @@ eof
 
     cat << eof > /lib/systemd/system/cpur.service
     [Unit]
-    Description=cpu stress 25 percents & download file with 10M/s speed
+    Description=cpu stress 10 percents & download file with 10M/s speed
     After=network.target
 
     [Service]
