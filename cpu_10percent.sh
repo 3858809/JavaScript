@@ -13,7 +13,7 @@ eof
 
 cat << eof > /lib/systemd/system/cpur.service;
 [Unit]
-Description=cpu stress 25 percents
+Description=cpu stress 10 percents
 After=network.target
 
 [Service]
