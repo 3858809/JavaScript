@@ -1,6 +1,6 @@
 cpuq=$(lscpu | awk '/^CPU\(/{print $NF*100/4}');
-[ -d "/opt/shuaibi" ] || mkdir -p /opt/shuaibi;
-cat << eof > /opt/shuaibi/cpu.sh;
+[ -d "/opt/oracle25cpu" ] || mkdir -p /opt/oracle25cpu;
+cat << eof > /opt/oracle25cpu/cpu.sh;
 cpuc=$(lscpu | awk '/^CPU\(/{print $NF}');
 for ((i=0;i<cpuc;i++))
 do
@@ -18,7 +18,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/bin/bash /opt/shuaibi/cpu.sh
+ExecStart=/bin/bash /opt/oracle25cpu/cpu.sh
 CPUQuota=${cpuq}%
 
 [Install]
