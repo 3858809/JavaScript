@@ -22,11 +22,12 @@ api_id = 5672799
 api_hash = "e08529171140eac69071c630f03f1a7a"
 channel_link = "EmbyPublicBot"
 QDmeg = "/checkin"
-#图片验证码api字典
+
 TCapikey={
 	"123":"123",
 	"123":"123"
 }
+
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
