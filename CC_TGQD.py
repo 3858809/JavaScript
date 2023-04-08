@@ -22,6 +22,12 @@ api_id = 5672799
 api_hash = "e08529171140eac69071c630f03f1a7a"
 channel_link = "EmbyCc_bot"
 QDmeg = "/start"
+#图片验证码api字典
+TCapikey={
+	"123":"123",
+	"123":"123"
+}
+
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
@@ -56,18 +62,29 @@ def XZYZM():
 def HQXX():
 	for message in client.iter_messages(channel_link):
 		return message
+
 def captcha_solver(f):
-	with open(f, "rb") as image_file:
-		encoded_string = base64.b64encode(image_file.read()).decode('ascii')
-		url = 'https://api.apitruecaptcha.org/one/gettext'
-		data = { 
-			'userid':'sheriqiang@gmail.com', 
-			'apikey':'L7GYXVaB2BreQrGhzh3I',  
-			'data':encoded_string
-		}
-		response = requests.post(url = url, json = data)
-		data = response.json()
-		return data['result']
+	for key in TCapikey :
+		print("开始进行验证码识别，使用账号：")
+		print("userid=",key)
+		print("key=",TCapikey[key])
+		with open(f, "rb") as image_file:
+			encoded_string = base64.b64encode(image_file.read()).decode('ascii')
+			url = 'https://api.apitruecaptcha.org/one/gettext'
+			data = { 
+				'userid':key, 
+				'apikey':TCapikey[key],  
+				'data':encoded_string
+			}
+			response = requests.post(url = url, json = data)
+			data = response.json()
+			print("data=",data)
+			if "result" in data:
+				return data['result']
+			else :
+				print("账号免费数量用完：",key)
+	
+	print("全部账号的免费数量都用完了")	
 	
 def setjson(key,text):
 	with open("/home/tgqd/qd.json", "r",encoding='utf-8') as jsonFile:
