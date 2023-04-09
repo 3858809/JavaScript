@@ -49,15 +49,20 @@ def GetWXMeg(text):
 
 #下载验证码图片
 def XZYZM():
-	photos = client.get_messages(channel_link, None, filter=InputMessagesFilterPhotos)
+	print("开始获取频道photos")
+	#photos = client.get_messages(channel_link, None, filter=InputMessagesFilterPhotos)
+	print("获取完毕")
 	index = 0
-	for photo in photos:
+	for photo in client.iter_messages(channel_link, None, filter=InputMessagesFilterPhotos):
+	#for photo in photos:
 		filename = channel_link + "/YZM.jpg"
 		index = index + 1
 		if index == 1:
+			print("开始下载最新的一张图片")
 			client.download_media(photo, filename)
+			print("下载完毕")
 		break
-	print("下载完毕")
+	print("退出下载")
 
 def HQXX():
 	for message in client.iter_messages(channel_link):
@@ -117,7 +122,7 @@ while dqsj_t > qdsj_t:
 	print("获取的新信息=",newmeg)
 	if newmeg == '/checkin':
 		client.send_message(channel_link,"/cancel")
-		time.sleep(60)
+		time.sleep(25)
 		client.send_message(channel_link, QDmeg) #发送签到命令
 	elif "签到验证码" in  newmeg:
 		try:
@@ -125,7 +130,7 @@ while dqsj_t > qdsj_t:
 			YZM = captcha_solver(channel_link + "/YZM.jpg")
 			print("发送验证码=",YZM) 
 			client.send_message(channel_link, YZM) #发送签到验证码
-			time.sleep(3)
+			time.sleep(1)
 		except:
 			client.send_message(channel_link,"/cancel")
 		else:
