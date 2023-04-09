@@ -25,17 +25,21 @@ QDmeg = "/checkin"
 # ==========================================
 client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
-#下载验证码图片
 def XZYZM():
-	photos = client.get_messages(channel_link, None, filter=InputMessagesFilterPhotos)
+	print("开始获取频道photos")
+	#photos = client.get_messages(channel_link, None, filter=InputMessagesFilterPhotos)
+	print("获取完毕")
 	index = 0
-	for photo in photos:
+	for photo in client.iter_messages(channel_link, None, filter=InputMessagesFilterPhotos):
+	#for photo in photos:
 		filename = channel_link + "/YZM.jpg"
 		index = index + 1
 		if index == 1:
+			print("开始下载最新的一张图片")
 			client.download_media(photo, filename)
+			print("下载完毕")
 		break
-	print("下载完毕")
+	print("退出下载")
 
 def HQXX():
 	for message in client.iter_messages(channel_link):
