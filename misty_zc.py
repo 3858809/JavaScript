@@ -113,14 +113,14 @@ def getjson(key):
 client.send_message(channel_link, QDmeg) #发送签到命令
 i=0
 while i < 5 :
-	time.sleep(20)
 	newmeg = HQXX()
 	print("获取的新信息=",newmeg)
 	if '用户已满' in newmeg or '验证码错误' in newmeg:
 		#client.send_message(channel_link,"/cancel")
 		time.sleep(1)
 		i = i+1
-		client.send_message(channel_link, QDmeg) #发送签到命令
+		if i< 5:
+			client.send_message(channel_link, QDmeg) #发送签到命令
 	elif "输入验证" in  newmeg:
 		try:
 			XZYZM()#下载验证码图片
@@ -132,6 +132,8 @@ while i < 5 :
 			client.send_message(channel_link,"/cancel")
 		else:
 			print("没有异常")
+	elif '注册账号' in newmeg:
+		print("等待接收图片。。")
 	else:
 		print("注册成功")
 		time.sleep(1)
