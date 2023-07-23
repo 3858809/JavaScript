@@ -24,13 +24,8 @@ channel_link = "PronembyTGBot2_bot"
 QDmeg = "/checkin"
 
 TCapikey={
-	"sheriqiang@gmail.com":"L7GYXVaB2BreQrGhzh3I",
-	"s3858809":"dPwkV7LPndiZmn2rHp81",
-	"shexiaoyu":"cLiDO6dflOthLre2fqKb",
-	"linyinfei":"ZKWyX71qkCZu25e7AfNO",
-	"linchunmiao":"NBX1A27nDnD0NcqlR3fq",
-	"xiaochunmiaoyaya2":"jG6O4aUjeaSxrgL07J18",
-	"xishi":"7dDVX4Lgl8adm9aQxHEU"
+	"123@gmail.com":"123",
+	"123":"123"
 }
 
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
@@ -71,7 +66,7 @@ def XZYZM():
 
 def HQXX():
 	for message in client.iter_messages(channel_link):
-		return message.text
+		return message
 
 def captcha_solver(f):
 	for key in TCapikey :
@@ -109,56 +104,52 @@ def getjson(key):
 		data = json.load(jsonFile)
 	return data[key]
 
-qdsj = getjson("zdz") 
+qdsj = getjson("misty") 
 print("上一次签到时间：",qdsj) 
 dqsj = str(datetime.date.today())
 print("当前时间：",dqsj)
-#setjson("zdz",dqsj) 
-#qdzt = getjson("zdz")
-#print("终点站签到状态：",qdzt)
 
 dqsj_t = datetime.datetime.strptime(dqsj, "%Y-%m-%d")
 qdsj_t = datetime.datetime.strptime(qdsj, "%Y-%m-%d")
 if dqsj_t > qdsj_t:
 	client.send_message(channel_link, QDmeg) #发送签到命令
 while dqsj_t > qdsj_t:
-	time.sleep(10)
+	time.sleep(3)
 	newmeg = HQXX()
-	print("获取的新信息=",newmeg)
-	if newmeg == '/checkin' or newmeg == '/myinfo':
+	print("获取的新信息=",newmeg.text)
+	if newmeg.text == '/checkin' or newmeg.text == '/myinfo':
 		time.sleep(5)
 		print("等待")
-	elif "今天已经签到过了" in newmeg:
+	elif "今天已经签到过了" in newmeg.text:
 		print("已经签到过，开始更新签到时间")
 		setjson("misty",str(datetime.date.today()))
 		print("开始查询到期时间")
 		client.send_message(channel_link, "/myinfo")
 		time.sleep(3)
 		newmeg = HQXX()
-		print("获取的所有信息:",newmeg)
-		zhhnsy = newmeg.split('账号还能使用')[1]
+		zhhnsy = newmeg.text.split('账号还能使用')[1]
 		zhhnsy1 =  zhhnsy.split('天')[0]
 		zhhnsy1 = re.sub("\D","",zhhnsy1) 
 		zhhnsyday = int(zhhnsy1)
 		print("账号还能使用天数=",zhhnsyday)
 
-		wsy = newmeg.split('未使用')[1]
+		wsy = newmeg.text.split('未使用')[1]
 		wsy1 =  wsy.split('天')[0]
 		wsy1 = re.sub("\D","",wsy1) 
 		wsyday = int(wsy1)
 		print("剩余未使用删除的天数=",wsyday)
 		if zhhnsyday < 7 or wsyday < 7 :
-			GetWXMeg(newmeg)
+			GetWXMeg(newmeg.text)
 
 		break
 
-	elif event.message.buttons:
+	elif newmeg.buttons:
 		print("发现按钮信息")
 		# 匹配按钮文本并点击
-		for button in event.message.buttons[0]:
+		for button in newmeg.buttons[0]:
 			if '签到' in button.text:
 				print("匹配按钮文本成功点击按钮")
-				await button.click()
+				button.click()
 				break
 	else:
 		client.send_message(channel_link, QDmeg) #发送签到验证码
