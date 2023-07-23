@@ -24,13 +24,7 @@ channel_link = "EmbyMistyBot"
 QDmeg = "🛎每日签到"
 
 TCapikey={
-	"sheriqiang@gmail.com":"L7GYXVaB2BreQrGhzh3I",
-	"s3858809":"dPwkV7LPndiZmn2rHp81",
-	"shexiaoyu":"cLiDO6dflOthLre2fqKb",
-	"linyinfei":"ZKWyX71qkCZu25e7AfNO",
-	"linchunmiao":"NBX1A27nDnD0NcqlR3fq",
-	"xiaochunmiaoyaya2":"jG6O4aUjeaSxrgL07J18",
-	"xishi":"7dDVX4Lgl8adm9aQxHEU"
+	"34354@gmail.com":"6565"
 }
 
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
