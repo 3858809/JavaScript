@@ -113,8 +113,8 @@ dqsj = str(datetime.date.today())
 print("当前时间：",dqsj)
 
 print("获取的最后信息=",newmeg.text)
-if '你已经签到过了' in newmeg.text:
-	scqdsj = newmeg.text.split("你已经签到过了")[0]
+if '上次签到时间' in newmeg.text:
+	scqdsj = newmeg.text.split("上次签到时间")[0]
 	print("text:",scqdsj)
 	if dqsj in scqdsj:
 		print("已经签到过！")
