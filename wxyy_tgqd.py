@@ -51,6 +51,26 @@ def GetWXMeg(text):
 	data = response.json()
 	return 'ok'
 
+#get通知
+def GetPushDeer(text):
+    url = "https://api2.pushdeer.com/message/push?pushkey=PDU24090TPIMPFah7knLxVO5Kc9jdjWTyPo1xPDN1&text="+text  # 替换为你想要请求的URL
+    response = requests.get(url)
+    # 检查请求是否成功
+    if response.status_code == 200:
+        print("请求成功")
+        print(response.text)  # 打印响应内容
+    else:
+        print("请求失败")
+
+#连续通知
+def forGetMeg(text,n):
+    for i in range(n):
+        GetPushDeer(text)
+        GetWXMeg(text)
+        time.sleep(5)
+        
+        
+
 #下载验证码图片
 def XZYZM():
 	print("开始获取频道photos")
@@ -118,10 +138,12 @@ if '上次签到时间' in newmeg.text:
 	print("text:",scqdsj)
 	if dqsj in scqdsj:
 		print("已经签到过！")
+        #记录签到时间用于监控
+        setjson("wxyy",str(datetime.date.today()))
 	else:
-		GetWXMeg('今天还没签到未响音乐服！！！！')
+		forGetMeg('今天还没签到未响音乐服！！！！')
 else:
-	GetWXMeg('没查到未响的签到信息')
+    forGetMeg('没查到未响的签到信息')
 
 client.send_read_acknowledge(channel_link) #将机器人回应设为已读
 client.disconnect()
