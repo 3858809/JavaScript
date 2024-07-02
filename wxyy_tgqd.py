@@ -138,12 +138,14 @@ if '上次签到时间' in newmeg.text:
 	print("text:",scqdsj)
 	if dqsj in scqdsj:
 		print("已经签到过！")
-        #记录签到时间用于监控
-        setjson("wxyy",str(datetime.date.today()))
+		#记录签到时间用于监控
+		setjson("wxyy",str(datetime.date.today()))
 	else:
-		forGetMeg('今天还没签到未响音乐服！！！！')
+		#forGetMeg('今天还没签到未响音乐服！！！！')
+		print("今天还没签到未响音乐服！")
 else:
-    forGetMeg('没查到未响的签到信息')
+    #forGetMeg('没查到未响的签到信息')
+    print("没查到未响的签到信息！")
 
 client.send_read_acknowledge(channel_link) #将机器人回应设为已读
 client.disconnect()
