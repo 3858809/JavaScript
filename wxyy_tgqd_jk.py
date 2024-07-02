@@ -65,6 +65,6 @@ if dqsj in qdsj:
     print("已经签到过！")
 else:
     print("今天未响音乐还没有签到过！")
-    forGetMeg('今天未响音乐还没有签到过!')
+    forGetMeg('今天未响音乐还没有签到过!',5)
 
 print("脚本结束")
