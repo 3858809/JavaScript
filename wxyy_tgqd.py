@@ -6,7 +6,7 @@ import json
 import re
 import requests
 import datetime
-import subprocess
+import psutil
 
 from telethon import TelegramClient,sync
 from telethon.tl.types import InputMessagesFilterPhotos
@@ -35,9 +35,6 @@ TCapikey={
 
 #proxy =("socks5","localhost",12345) #不需要代理的话删掉该行
 # ==========================================
-find_processes_using_file()
-
-client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
 #微信提醒
 def GetWXMeg(text):
@@ -55,23 +52,19 @@ def GetWXMeg(text):
       return 'ok'
 
 #关闭会话进程占用
-def find_processes_using_file():  
-    # 构建fuser命令  
-    command = ['fuser -k -v', 'shexiaoyu.session']  
-      
-    # 执行命令并捕获输出  
-    try:  
-        result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)  
-          
-        # 检查命令是否成功执行  
-        if result.returncode == 0:  
-            # 输出正在使用该文件的进程ID  
-            print("进程ID:", result.stdout.strip())  
-        else:  
-            # 如果有错误，打印错误信息  
-            print("错误:", result.stderr.strip())  
-    except Exception as e:  
-        print(f"执行命令时发生错误: {e}") 
+def find_and_kill_processes_by_file(filename):  
+    # 遍历所有当前运行的进程  
+    for proc in psutil.process_iter(['pid', 'name', 'cmdline']):  
+        try:  
+            # 检查cmdline是否包含指定的文件名  
+            # 注意：这取决于文件名在命令行中的出现方式，可能需要调整  
+            if filename in ' '.join(proc.info['cmdline']):  
+                print(f"找到进程: {proc.info['name']} (PID: {proc.pid})")  
+                # 杀死进程  
+                proc.kill()  
+                print(f"进程 {proc.pid} 已被杀死。")  
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):  
+            pass
 
 #get通知
 def GetPushDeer(text):
@@ -149,6 +142,13 @@ def getjson(key):
       with open("/home/tgqd/qd.json", "r",encoding='utf-8') as jsonFile:
             data = json.load(jsonFile)
       return data[key]
+
+
+#主程序逻辑开始
+
+find_and_kill_processes_by_file("shexiaoyu.session")
+
+client = TelegramClient('shexiaoyu',api_id=api_id,api_hash=api_hash,proxy=proxy).start()
 
 newmeg = HQXX()
 dqsj = str(datetime.date.today())
