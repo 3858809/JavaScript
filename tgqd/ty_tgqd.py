@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 # 读取配置文件
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('/home/tgqd/config.ini')
 
 # 获取全局配置
 API_ID = config.get('Telegram', 'API_ID')
