@@ -27,7 +27,7 @@ PHONE_NUMBER = config.get('Telegram', 'PHONE_NUMBER')
 PUSHDEER_KEY = config.get('PushDeer', 'PUSHDEER_KEY')  # PushDeer 的 PushKey
 
 # 初始化 Telegram 客户端
-client = TelegramClient('session_name', API_ID, API_HASH)
+client = TelegramClient('/home/tgqd/shexiaoyu', API_ID, API_HASH).start(PHONE_NUMBER)
 
 async def check_manual_signin_reminder(event, bot_entity, bot_rules):
     """
@@ -79,11 +79,13 @@ async def check_manual_signin_reminder(event, bot_entity, bot_rules):
                         logger.info(f"按钮内容: {button}")
                         try:
                             logger.info(f"点击按钮【{button.text}】")
-                            response = await client(GetBotCallbackAnswerRequest(
-                                peer=message.peer_id,
-                                msg_id=message.id,
-                                data=button.data
-                            ))
+                            #await click_button_safe(client, button)
+                            await click_button_safely(client, '@lotayu_bot', button.text)
+                            #response = await client(GetBotCallbackAnswerRequest(
+                            #    peer=message.peer_id,
+                            #    msg_id=message.id,
+                            #    data=button.data
+                            #))
                             logger.info(f"回调响应: {response}")
                         except Exception as e:
                             logger.error(f"回调失败: {e}")
@@ -156,6 +158,36 @@ async def send_pushdeer_notification(title, message):
             logger.error(f"PushDeer 通知发送失败: {response.text}")
     except Exception as e:
         logger.error(f"PushDeer 通知发送异常: {e}")
+
+#控制超时的按钮点击
+async def click_button_safely(client, chat, button_text):
+    try:
+        # 寻找按钮
+        buttons = await client.get_messages(chat, limit=1)
+        for message in buttons:
+            if message.buttons:
+                for row in message.buttons:
+                    for button in row:
+                        if button.text == button_text:
+                            try:
+                                response = await asyncio.wait_for(
+                                    client(GetBotCallbackAnswerRequest(
+                                        peer=chat,
+                                        msg_id=message.id,
+                                        data=button.data
+                                    )),
+                                    timeout=5  # 设置超时时间为 5 秒
+                                )
+                                print(f"按钮 {button_text} 点击成功")
+                                return response
+                            except asyncio.TimeoutError:
+                                print(f"点击按钮 {button_text} 超时，但继续执行后续代码")
+                                return None
+        print(f"未找到按钮: {button_text}")
+    except rpcerrorlist.BotResponseTimeoutError as e:
+        print(f"回调失败: {e}")
+    except Exception as e:
+        print(f"点击按钮 {button_text} 时发生异常: {e}")
 
 def parse_expiry_date(message_text):
     """
@@ -307,11 +339,18 @@ async def auto_sign_in():
     try:
         # 连接 Telegram
         await client.connect()
+        # 如果会话文件不存在，自动用 bot token 登录（推荐用 bot token 避免验证码）
         if not await client.is_user_authorized():
-            # 发送登录验证码
-            await client.send_code_request(PHONE_NUMBER)
-            code = input("请输入收到的验证码: ")
-            await client.sign_in(PHONE_NUMBER, code)
+            #bot_token = config.get('Telegram', 'BOT_TOKEN', fallback=None)
+            if bot_token:
+                #await client.start(bot_token=bot_token)
+                #logger.info("使用 bot token 登录成功！")
+            #else:
+                # 如果没有 bot token，则使用手机号验证码（需要交互环境，cron 里容易失败）
+                await client.send_code_request(PHONE_NUMBER)
+                code = input("请输入收到的验证码: ")  # 这里会导致 cron 出错
+                await client.sign_in(PHONE_NUMBER, code)
+                logger.info("使用手机号登录成功！")
 
         logger.info("登录成功！")
 
