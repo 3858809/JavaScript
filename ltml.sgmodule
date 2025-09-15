@@ -1,0 +1,17 @@
+#!name=联通云盘免流模块
+#!desc=为 pan.wo.cn/tjtn.pan.wo.cn 流量做 Host/SNI 与 Header 强制替换的模块
+
+[Rule]
+# 将 pan.wo.cn 相关域名标记为需要走代理（模块里用 PROXY 表示）
+DOMAIN-SUFFIX,pan.wo.cn,PROXY
+DOMAIN-SUFFIX,tjtn.pan.wo.cn,PROXY
+
+[Header Rewrite]
+# 将 HTTP 请求头中的 Host/X-Online-Host 替换为 tjtn.pan.wo.cn
+# 语法：<匹配规则> <匹配域> header-replace <Header-Name> <Replacement>
+^http://(.*) pan.wo.cn header-replace Host tjtn.pan.wo.cn
+^http://(.*) pan.wo.cn header-replace X-Online-Host tjtn.pan.wo.cn
+
+[MITM]
+# 把需要被 MITM 的主机列入，以允许 Shadowrocket 插入证书并修改 TLS SNI
+hostname = pan.wo.cn, tjtn.pan.wo.cn
