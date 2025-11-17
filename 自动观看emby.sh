@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # 核心配置参数（无需修改，保持原有效配置）
-SERVER="https://emby.nebula-media.org/emby"
-TOKEN="097f93f8c36d41fbb31989d4b9b0b4e6"
-DEVICE_ID="4148654b-f8f5-40b3-95a1-8360f75c6d31"
+SERVER="https://emby.na.org/emby"
+TOKEN="097f93fb9b0b4e6"
+DEVICE_ID="4148654b-f8f5-40b3-95a1-8360115c6d44"
 ITEM_ID="190687"
 MEDIA_SOURCE_ID="mediasource_190687"
 LOG_FILE="./emby_checkin.log"
@@ -12,7 +12,7 @@ LOG_FILE="./emby_checkin.log"
 LOG_RETENTION_DAYS=10  # 可根据需要修改天数
 
 # PushDeer 配置（已改为可用的服务器）
-PUSHDEER_KEY="PDU24090TPIMPFah7knLxVO5Kc9jdjWTyPo1xPDN1"  # 务必替换为你的实际密钥
+PUSHDEER_KEY="PDU24090TPIMPFah7knPo1xPDN1"  # 务必替换为你的实际密钥
 PUSHDEER_SERVER="https://api2.pushdeer.com"  # 测试可用的服务器
 
 # 生成随机32位播放会话ID（兼容无openssl的环境）
