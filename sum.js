@@ -11,7 +11,7 @@ async function operator(proxies = [], targetPlatform, context) {
   if (!collection || Object.keys(source).length > 1) throw new Error('暂时仅支持组合订阅, 请在组合订阅中使用此脚本')
 
   // ========== 自定义这里，修改你想要的plan_name名称 ==========
-  const PLAN_NAME = "墨倾"
+  const PLAN_NAME = "moqing"
   // ========================================================
   
   const allSubs = $.read(SUBS_KEY) || []
@@ -130,7 +130,7 @@ async function operator(proxies = [], targetPlatform, context) {
   if (expire) {
     subUserInfoParts.push(`expire=${expire}`)
   }
-  subUserInfoParts.push(`plan_name="${PLAN_NAME}"`)
+  subUserInfoParts.push(`plan_name=${PLAN_NAME}`)
   const subUserInfo = subUserInfoParts.join('; ')
 
   // 旧版需要写入, 返回响应头里使用这个
